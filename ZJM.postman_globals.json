@@ -1,0 +1,14 @@
+{
+	"id": "f64e13aa-ebed-4717-8a66-6066e54ed1cf",
+	"values": [
+		{
+			"key": "G_Temp",
+			"value": "",
+			"enabled": true
+		}
+	],
+	"name": "ZJM Globals",
+	"_postman_variable_scope": "globals",
+	"_postman_exported_at": "2021-05-20T06:37:57.132Z",
+	"_postman_exported_using": "Postman/8.4.0"
+}

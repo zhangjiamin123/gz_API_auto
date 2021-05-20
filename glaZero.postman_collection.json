@@ -1622,6 +1622,105 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "获取设备列表-sessionId过期",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var a = pm.globals.get(\"G_Temp\");   //获取运行脚本前保存下来的原始sid\r",
+									"pm.environment.set(\"sid\", a);   //恢复原始sid\r",
+									"\r",
+									"//断言\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"errno返回是：202\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.errno).to.eql(202);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"errmsg返回是：sid过期\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.errmsg).to.eql(\"sid过期\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var sidTemp1 = pm.environment.get(\"sid\");\r",
+									"pm.globals.set(\"G_Temp\", sidTemp1);   //保存原始sid，用于执行脚本后恢复sid值\r",
+									"sidTemp2 = sidTemp1.reverse();   //反转原始sid，制造格式相同的非法sid\r",
+									"pm.environment.set(\"sid\", sidTemp2);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Gz-Uid",
+								"value": "{{uid}}",
+								"type": "text"
+							},
+							{
+								"key": "Gz-Sid",
+								"value": "{{sid}}",
+								"type": "text"
+							},
+							{
+								"key": "Gz-Pid",
+								"value": "glazero",
+								"type": "text"
+							},
+							{
+								"key": "Host",
+								"value": "glazero.snser.wang",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://vpc-test-164097185.cn-northwest-1.elb.amazonaws.com.cn/v1/dev/getList?uuid={{$guid}}&pid=glazero&t={{$timestamp}}",
+							"protocol": "https",
+							"host": [
+								"vpc-test-164097185",
+								"cn-northwest-1",
+								"elb",
+								"amazonaws",
+								"com",
+								"cn"
+							],
+							"path": [
+								"v1",
+								"dev",
+								"getList"
+							],
+							"query": [
+								{
+									"key": "uuid",
+									"value": "{{$guid}}"
+								},
+								{
+									"key": "pid",
+									"value": "glazero"
+								},
+								{
+									"key": "t",
+									"value": "{{$timestamp}}"
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		}
