@@ -6,6 +6,1668 @@
 	},
 	"item": [
 		{
+			"name": "注册",
+			"item": [
+				{
+					"name": "注册状态-输入已注册用户（邮箱）",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//断言\r",
+									"var resData = JSON.parse(responseBody);\r",
+									"tests[\"判断 errorno 是0(成功处理)\"] = resData.errno === 0;\r",
+									"tests[\"判断 errmsg 是 成功\"] = resData.errmsg === \"成功\";\r",
+									"tests[\"判断 status 是2(已注册用户)\"] = resData.data.status === 2;"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "glazeroinc@gmail.com",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://{{loginHost}}/v1/user/getRegStatus?uuid={{$guid}}&pid={{pid}}",
+							"protocol": "https",
+							"host": [
+								"{{loginHost}}"
+							],
+							"path": [
+								"v1",
+								"user",
+								"getRegStatus"
+							],
+							"query": [
+								{
+									"key": "uuid",
+									"value": "{{$guid}}"
+								},
+								{
+									"key": "pid",
+									"value": "{{pid}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "注册状态-输入验证中的用户（邮箱）",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//此场景是用户没有点击邮箱中的验证url\r",
+									"//断言\r",
+									"var resData = JSON.parse(responseBody);\r",
+									"tests[\"判断 errorno 是0(成功处理)\"] = resData.errno === 0;\r",
+									"tests[\"判断 errmsg 是 成功\"] = resData.errmsg === \"成功\";\r",
+									"tests[\"判断 status 是1(已注册用户)\"] = resData.data.status === 1;"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"email\", \"glazeroinc@glazero.com\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "{{email}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://{{loginHost}}/v1/user/getRegStatus?uuid={{$guid}}&pid={{pid}}",
+							"protocol": "https",
+							"host": [
+								"{{loginHost}}"
+							],
+							"path": [
+								"v1",
+								"user",
+								"getRegStatus"
+							],
+							"query": [
+								{
+									"key": "uuid",
+									"value": "{{$guid}}"
+								},
+								{
+									"key": "pid",
+									"value": "{{pid}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "注册状态-输入未注册的用户（邮箱）",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//断言\r",
+									"var resData = JSON.parse(responseBody);\r",
+									"tests[\"判断 errorno 是 203\"] = resData.errno === 203;\r",
+									"tests[\"判断 errmsg 是：上传推送token失败\"] = resData.errmsg === \"上传推送token失败\";\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"email\", \"zhangjiamruntest@163.com\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "{{email}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://{{amazonaws}}/v1/user/getRegStatus?uuid={{$guid}}&pid={{pid}}",
+							"protocol": "https",
+							"host": [
+								"{{amazonaws}}"
+							],
+							"path": [
+								"v1",
+								"user",
+								"getRegStatus"
+							],
+							"query": [
+								{
+									"key": "uuid",
+									"value": "{{$guid}}"
+								},
+								{
+									"key": "pid",
+									"value": "{{pid}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "注册状态-非邮箱-空",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//断言\r",
+									"var resData = JSON.parse(responseBody);\r",
+									"tests[\"判断 errorno 是 100\"] = resData.errno === 100;\r",
+									"tests[\"判断 errmsg 是：参数错误\"] = resData.errmsg === \"参数错误\";\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"email\", '');"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "{{email}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://{{amazonaws}}/v1/user/getRegStatus?uuid={{$guid}}&pid={{pid}}",
+							"protocol": "https",
+							"host": [
+								"{{amazonaws}}"
+							],
+							"path": [
+								"v1",
+								"user",
+								"getRegStatus"
+							],
+							"query": [
+								{
+									"key": "uuid",
+									"value": "{{$guid}}"
+								},
+								{
+									"key": "pid",
+									"value": "{{pid}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "注册状态-非邮箱-null(目前返回验证中的状态)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//目前对null没有做校验\r",
+									"//断言\r",
+									"var resData = JSON.parse(responseBody);\r",
+									"tests[\"判断 errorno 是 0\"] = resData.errno === 0;\r",
+									"tests[\"判断 errmsg 是：成功\"] = resData.errmsg === \"成功\";\r",
+									"\r",
+									"console.log(\"email字段是：\" +pm.environment.get(\"email\"));\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"email\", null);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "{{email}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://{{amazonaws}}/v1/user/getRegStatus?uuid={{$guid}}&pid={{pid}}",
+							"protocol": "https",
+							"host": [
+								"{{amazonaws}}"
+							],
+							"path": [
+								"v1",
+								"user",
+								"getRegStatus"
+							],
+							"query": [
+								{
+									"key": "uuid",
+									"value": "{{$guid}}"
+								},
+								{
+									"key": "pid",
+									"value": "{{pid}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "注册状态-非邮箱-undefine(目前返回验证中的状态)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//目前对undefine没有做校验\r",
+									"//断言\r",
+									"var resData = JSON.parse(responseBody);\r",
+									"tests[\"判断 errorno 是 0\"] = resData.errno === 0;\r",
+									"tests[\"判断 errmsg 是：成功\"] = resData.errmsg === \"成功\";\r",
+									"\r",
+									"console.log(\"email字段是：\" +pm.environment.get(\"email\"));\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"email\", undefined);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "{{email}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://{{amazonaws}}/v1/user/getRegStatus?uuid={{$guid}}&pid={{pid}}",
+							"protocol": "https",
+							"host": [
+								"{{amazonaws}}"
+							],
+							"path": [
+								"v1",
+								"user",
+								"getRegStatus"
+							],
+							"query": [
+								{
+									"key": "uuid",
+									"value": "{{$guid}}"
+								},
+								{
+									"key": "pid",
+									"value": "{{pid}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "注册状态-非邮箱-其他",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//目前后端没有对邮箱格式进行判断\r",
+									"//断言\r",
+									"var resData = JSON.parse(responseBody);\r",
+									"tests[\"判断 errorno 是 0\"] = resData.errno === 0;\r",
+									"tests[\"判断 errmsg 是：成功\"] = resData.errmsg === \"成功\";\r",
+									"\r",
+									"console.log(\"email字段是：\" +pm.environment.get(\"email\"));\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"email\", \"你好\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "{{email}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://{{amazonaws}}/v1/user/getRegStatus?uuid={{$guid}}&pid={{pid}}",
+							"protocol": "https",
+							"host": [
+								"{{amazonaws}}"
+							],
+							"path": [
+								"v1",
+								"user",
+								"getRegStatus"
+							],
+							"query": [
+								{
+									"key": "uuid",
+									"value": "{{$guid}}"
+								},
+								{
+									"key": "pid",
+									"value": "{{pid}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "注册-已注册用户注册",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//断言\r",
+									"var resData = JSON.parse(responseBody);\r",
+									"tests[\"判断 errorno 是502\"] = resData.errno === 502;\r",
+									"tests[\"判断 errmsg 是 用户已存在\"] = resData.errmsg === \"用户已存在\";\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Gz-Pid",
+								"value": "{{pid}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "region",
+									"value": "cn",
+									"type": "text"
+								},
+								{
+									"key": "type",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "张佳民",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "111111",
+									"type": "text"
+								},
+								{
+									"key": "nickname",
+									"value": "昵称是霄云路",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "glazeroinc@gmail.com",
+									"description": "已注册用户的邮箱",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://{{amazonaws}}/v1/user/register?uuid={{$guid}}",
+							"protocol": "https",
+							"host": [
+								"{{amazonaws}}"
+							],
+							"path": [
+								"v1",
+								"user",
+								"register"
+							],
+							"query": [
+								{
+									"key": "uuid",
+									"value": "{{$guid}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "注册-邮箱为空",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//该字段为必填项\r",
+									"//断言\r",
+									"var resData = JSON.parse(responseBody);\r",
+									"tests[\"判断 errorno 是100\"] = resData.errno === 100;\r",
+									"tests[\"判断 errmsg 是 用户已存在\"] = resData.errmsg === \"参数错误\";\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"email\", '');"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Gz-Pid",
+								"value": "{{pid}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "region",
+									"value": "cn",
+									"type": "text"
+								},
+								{
+									"key": "type",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "张佳民",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "111111",
+									"type": "text"
+								},
+								{
+									"key": "nickname",
+									"value": "昵称是霄云路",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "{{email}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://{{amazonaws}}/v1/user/register?uuid={{$guid}}",
+							"protocol": "https",
+							"host": [
+								"{{amazonaws}}"
+							],
+							"path": [
+								"v1",
+								"user",
+								"register"
+							],
+							"query": [
+								{
+									"key": "uuid",
+									"value": "{{$guid}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "注册-邮箱为 null",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//断言\r",
+									"var resData = JSON.parse(responseBody);\r",
+									"tests[\"判断 errorno 是1\"] = resData.errno === 1;\r",
+									"tests[\"判断 errmsg 是 失败\"] = resData.errmsg === \"失败\";\r",
+									"\r",
+									"console.log(\"email字段是：\" +pm.environment.get(\"email\"));\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"email\", null);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Gz-Pid",
+								"value": "{{pid}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "region",
+									"value": "cn",
+									"type": "text"
+								},
+								{
+									"key": "type",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "张佳民",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "111111",
+									"type": "text"
+								},
+								{
+									"key": "nickname",
+									"value": "昵称是霄云路",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "{{email}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://{{amazonaws}}/v1/user/register?uuid={{$guid}}",
+							"protocol": "https",
+							"host": [
+								"{{amazonaws}}"
+							],
+							"path": [
+								"v1",
+								"user",
+								"register"
+							],
+							"query": [
+								{
+									"key": "uuid",
+									"value": "{{$guid}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "注册-邮箱为 其他",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//断言\r",
+									"var resData = JSON.parse(responseBody);\r",
+									"tests[\"判断 errorno 是1\"] = resData.errno === 1;\r",
+									"tests[\"判断 errmsg 是 失败\"] = resData.errmsg === \"失败\";\r",
+									"\r",
+									"console.log(\"email字段是：\" +pm.environment.get(\"email\"));\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"email\", \"你好\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Gz-Pid",
+								"value": "{{pid}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "region",
+									"value": "cn",
+									"type": "text"
+								},
+								{
+									"key": "type",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "张佳民",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "111111",
+									"type": "text"
+								},
+								{
+									"key": "nickname",
+									"value": "昵称是霄云路",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "{{email}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://{{amazonaws}}/v1/user/register?uuid={{$guid}}",
+							"protocol": "https",
+							"host": [
+								"{{amazonaws}}"
+							],
+							"path": [
+								"v1",
+								"user",
+								"register"
+							],
+							"query": [
+								{
+									"key": "uuid",
+									"value": "{{$guid}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "注册-正常数据注册",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//断言\r",
+									"var resData = JSON.parse(responseBody);\r",
+									"tests[\"判断 errorno 是0\"] = resData.errno === 0;\r",
+									"tests[\"判断 errmsg 是 成功\"] = resData.errmsg === \"成功\";\r",
+									"\r",
+									"console.log(\"email字段是：\" +pm.environment.get(\"email\"));\r",
+									"\r",
+									"//调用注册状态查询接口，确认现在的状态是status为1\r",
+									"function uuid() {\r",
+									"    var s = [];\r",
+									"    var hexDigits = \"0123456789abcdef\";\r",
+									"    for (var i = 0; i < 36; i++) {\r",
+									"        s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);\r",
+									"    }\r",
+									"    s[14] = \"4\";  // bits 12-15 of the time_hi_and_version field to 0010\r",
+									"    s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1);  // bits 6-7 of the clock_seq_hi_and_reserved to 01\r",
+									"    s[8] = s[13] = s[18] = s[23] = \"-\";\r",
+									" \r",
+									"    var uuid = s.join(\"\");\r",
+									"    return uuid;\r",
+									"}\r",
+									"\r",
+									"var tempL = pm.environment.get(\"loginHost\");\r",
+									"var tempGuid = uuid();\r",
+									"console.log(\"tempGuid:\"+tempGuid)\r",
+									"var tempP = pm.environment.get(\"pid\");\r",
+									"\r",
+									"const getRegStatus = {   //注册状态查询接口，请求信息\r",
+									"    url:'https://'+tempL+'/v1/user/getRegStatus?uuid='+tempGuid+'&pid='+tempP,\r",
+									"    method: 'POST',\r",
+									"    header: 'Content-Type:application/x-www-form-urlencoded',\r",
+									"    body: {mode:'urlencoded',urlencoded: 'email=1010642719@qq.com'}\r",
+									"};\r",
+									"\r",
+									"pm.sendRequest(getRegStatus, function (err, response) {   //发送请求\r",
+									"    console.log(response.json());\r",
+									"    var jsonData = response.json()\r",
+									"\r",
+									"    pm.test(\"返回的status应为1，调用注册接口后还没有进行verify，状态为：注册验证中\", function () {\r",
+									"\r",
+									"        pm.expect(jsonData.data.status).to.eql(1);\r",
+									"\r",
+									"    });\r",
+									"\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"email\", \"1010642719@qq.com\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Gz-Pid",
+								"value": "{{pid}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "region",
+									"value": "cn",
+									"type": "text"
+								},
+								{
+									"key": "type",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "张佳民",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "111111",
+									"type": "text"
+								},
+								{
+									"key": "nickname",
+									"value": "昵称是霄云路",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "{{email}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://{{loginHost}}/v1/user/register?uuid={{$guid}}",
+							"protocol": "https",
+							"host": [
+								"{{loginHost}}"
+							],
+							"path": [
+								"v1",
+								"user",
+								"register"
+							],
+							"query": [
+								{
+									"key": "uuid",
+									"value": "{{$guid}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "注册-注册后进行verify验证（临时方案）",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//断言返回结果\r",
+									"pm.test(\"注册后进行verify验证\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.errno).to.eql(0);\r",
+									"    pm.expect(jsonData.errmsg).to.eql(\"成功\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{loginHost}}/v1/user/verifyReg?uuid={{$guid}}&pid={{pid}}&info=vnORhN0y6%2BE%2FljV9LDO7wIzERQ7WsZi3rIeombEJi%2Fq64vP4HyMdU%2Bmlp1MkrN96TDZilCsCtWCdhrx%2B6dN5JN6UFjh%2Bwb2AHpyGSgGCPysPSMlFG2cTNxd50kgaFng6",
+							"protocol": "https",
+							"host": [
+								"{{loginHost}}"
+							],
+							"path": [
+								"v1",
+								"user",
+								"verifyReg"
+							],
+							"query": [
+								{
+									"key": "uuid",
+									"value": "{{$guid}}"
+								},
+								{
+									"key": "pid",
+									"value": "{{pid}}"
+								},
+								{
+									"key": "info",
+									"value": "vnORhN0y6%2BE%2FljV9LDO7wIzERQ7WsZi3rIeombEJi%2Fq64vP4HyMdU%2Bmlp1MkrN96TDZilCsCtWCdhrx%2B6dN5JN6UFjh%2Bwb2AHpyGSgGCPysPSMlFG2cTNxd50kgaFng6"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "登录-用于注销账号时获取该用户的相关信息（临时调试使用）",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"email\", \"1010642719@qq.com\");"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//断言\r",
+									"pm.test(\"判断 status code 是200\",function(){\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var resData = JSON.parse(responseBody);\r",
+									"tests[\"判断 errmsg 是“成功”\"] = resData.errmsg === \"成功\";\r",
+									"\r",
+									"//提取uid、sid\r",
+									"pm.environment.set(\"uidPurge\", resData.data.uid);\r",
+									"pm.environment.set(\"sidPurge\", resData.data.sid);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Host",
+								"value": "glazero.snser.wang",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "region",
+									"value": "cn",
+									"type": "text"
+								},
+								{
+									"key": "type",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "{{email}}",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "111111",
+									"type": "text"
+								},
+								{
+									"key": "osType",
+									"value": "android",
+									"type": "text"
+								},
+								{
+									"key": "osVer",
+									"value": "28",
+									"type": "text"
+								},
+								{
+									"key": "lang",
+									"value": "zh",
+									"type": "text"
+								},
+								{
+									"key": "brand",
+									"value": "Xiaomi",
+									"type": "text"
+								},
+								{
+									"key": "model",
+									"value": "MI 6",
+									"type": "text"
+								},
+								{
+									"key": "imei",
+									"value": "{{imei}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://{{loginHost}}/v1/user/login?uuid={{$guid}}&pid={{pid}}&t={{$timestamp}}",
+							"protocol": "https",
+							"host": [
+								"{{loginHost}}"
+							],
+							"path": [
+								"v1",
+								"user",
+								"login"
+							],
+							"query": [
+								{
+									"key": "uuid",
+									"value": "{{$guid}}"
+								},
+								{
+									"key": "pid",
+									"value": "{{pid}}"
+								},
+								{
+									"key": "t",
+									"value": "{{$timestamp}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "忘记密码（发送验证码）-已注册用户",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//断言\r",
+									"pm.test(\"验证返回值errno是：0和errmsg是：成功\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.errno).to.eql(0);\r",
+									"    pm.expect(jsonData.errmsg).to.eql(\"成功\");\r",
+									"});\r",
+									"\r",
+									"console.log(\"email字段是：\" +pm.environment.get(\"email\"));\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"//指定测试数据\r",
+									"//不需要uid、sid\r",
+									"pm.environment.set(\"email\", \"1010642719@qq.com\");\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Gz-Pid",
+								"value": "{{pid}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "action",
+									"value": "reset_password",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "{{email}}",
+									"type": "text"
+								},
+								{
+									"key": "type",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://{{loginHost}}/v1/user/sendCode?uuid={{$guid}}",
+							"protocol": "https",
+							"host": [
+								"{{loginHost}}"
+							],
+							"path": [
+								"v1",
+								"user",
+								"sendCode"
+							],
+							"query": [
+								{
+									"key": "uuid",
+									"value": "{{$guid}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "忘记密码（发送验证码）-未注册用户",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//断言\r",
+									"pm.test(\"未注册用户errno返回是1，errmsg返回是”失败\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.errno).to.eql(1);\r",
+									"    pm.expect(jsonData.errmsg).to.eql(\"失败\");\r",
+									"});\r",
+									"\r",
+									"console.log(\"email字段是：\" +pm.environment.get(\"email\"));\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"email\", \"zhangjiamruntest@163.com\");   //指定测试数据\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Gz-Pid",
+								"value": "{{pid}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "action",
+									"value": "reset_password",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "{{email}}",
+									"type": "text"
+								},
+								{
+									"key": "type",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://{{loginHost}}/v1/user/sendCode?uuid={{$guid}}",
+							"protocol": "https",
+							"host": [
+								"{{loginHost}}"
+							],
+							"path": [
+								"v1",
+								"user",
+								"sendCode"
+							],
+							"query": [
+								{
+									"key": "uuid",
+									"value": "{{$guid}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "忘记密码（发送验证码）-验证中的用户",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//断言\r",
+									"pm.test(\"验证中的用户errno返回是1，errmsg返回是”失败\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.errno).to.eql(1);\r",
+									"    pm.expect(jsonData.errmsg).to.eql(\"失败\");\r",
+									"});\r",
+									"\r",
+									"console.log(\"email字段是：\" +pm.environment.get(\"email\"));\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"email\", \"glazeroinc@glazero.com\");   //指定测试数据\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Gz-Pid",
+								"value": "{{pid}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "action",
+									"value": "reset_password",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "{{email}}",
+									"type": "text"
+								},
+								{
+									"key": "type",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://{{loginHost}}/v1/user/sendCode?uuid={{$guid}}",
+							"protocol": "https",
+							"host": [
+								"{{loginHost}}"
+							],
+							"path": [
+								"v1",
+								"user",
+								"sendCode"
+							],
+							"query": [
+								{
+									"key": "uuid",
+									"value": "{{$guid}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "忘记密码（发送验证码）-发送其他",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//断言\r",
+									"pm.test(\"传入无效字符时，errno返回是1，errmsg返回是”失败\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.errno).to.eql(1);\r",
+									"    pm.expect(jsonData.errmsg).to.eql(\"失败\");\r",
+									"});\r",
+									"\r",
+									"console.log(\"email字段是：\" +pm.environment.get(\"email\"));\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"email\", \"你好\");   //指定测试数据\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Gz-Pid",
+								"value": "{{pid}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "action",
+									"value": "reset_password",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "{{email}}",
+									"type": "text"
+								},
+								{
+									"key": "type",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://{{loginHost}}/v1/user/sendCode?uuid={{$guid}}",
+							"protocol": "https",
+							"host": [
+								"{{loginHost}}"
+							],
+							"path": [
+								"v1",
+								"user",
+								"sendCode"
+							],
+							"query": [
+								{
+									"key": "uuid",
+									"value": "{{$guid}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "注册-注销账号",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//断言\r",
+									"var resData = JSON.parse(responseBody);\r",
+									"tests[\"判断 errorno 是0\"] = resData.errno === 0;\r",
+									"tests[\"判断 errmsg 是 成功\"] = resData.errmsg === \"成功\";\r",
+									"\r",
+									"console.log(\"email字段是：\" +pm.environment.get(\"email\"));\r",
+									"\r",
+									"//注销后调用注册状态查询接口，确认现在的状态是status为203（非1，非2）\r",
+									"function uuid() {\r",
+									"    var s = [];\r",
+									"    var hexDigits = \"0123456789abcdef\";\r",
+									"    for (var i = 0; i < 36; i++) {\r",
+									"        s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);\r",
+									"    }\r",
+									"    s[14] = \"4\";  // bits 12-15 of the time_hi_and_version field to 0010\r",
+									"    s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1);  // bits 6-7 of the clock_seq_hi_and_reserved to 01\r",
+									"    s[8] = s[13] = s[18] = s[23] = \"-\";\r",
+									" \r",
+									"    var uuid = s.join(\"\");\r",
+									"    return uuid;\r",
+									"}\r",
+									"\r",
+									"var tempL = pm.environment.get(\"loginHost\");\r",
+									"var tempGuid = uuid();\r",
+									"console.log(\"tempGuid:\"+tempGuid)\r",
+									"var tempP = pm.environment.get(\"pid\");\r",
+									"\r",
+									"const getRegStatus = {   //注册状态查询接口的请求信息\r",
+									"    url:'https://'+tempL+'/v1/user/getRegStatus?uuid='+tempGuid+'&pid='+tempP,\r",
+									"    method: 'POST',\r",
+									"    header: 'Content-Type:application/x-www-form-urlencoded',\r",
+									"    body: {mode:'urlencoded',urlencoded: 'email=1010642719@qq.com'}\r",
+									"};\r",
+									"\r",
+									"pm.sendRequest(getRegStatus, function (err, response) {   //发送请求\r",
+									"    console.log(response.json());\r",
+									"    var jsonData = response.json();\r",
+									"\r",
+									"    pm.test(\"返回的errno应为203，调用注销接口后验证该邮箱为无效状态\", function () {\r",
+									"\r",
+									"        pm.expect(jsonData.errno).to.eql(203);\r",
+									"\r",
+									"    });\r",
+									"\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"//注销账号之前 调用登录接口 获取sid和uid\r",
+									"function uuid() {   //生成uuid\r",
+									"    var s = [];\r",
+									"    var hexDigits = \"0123456789abcdef\";\r",
+									"    for (var i = 0; i < 36; i++) {\r",
+									"        s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);\r",
+									"    }\r",
+									"    s[14] = \"4\";  // bits 12-15 of the time_hi_and_version field to 0010\r",
+									"    s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1);  // bits 6-7 of the clock_seq_hi_and_reserved to 01\r",
+									"    s[8] = s[13] = s[18] = s[23] = \"-\";\r",
+									" \r",
+									"    var uuid = s.join(\"\");\r",
+									"    return uuid;\r",
+									"\r",
+									"}\r",
+									"\r",
+									"var tempL = pm.environment.get(\"loginHost\");\r",
+									"var tempGuid = uuid();\r",
+									"var tempP = pm.environment.get(\"pid\");\r",
+									"\r",
+									"const logIn = {   //登录接口的请求信息\r",
+									"    url:'https://'+tempL+'/v1/user/login?uuid='+tempGuid+'&pid='+tempP,\r",
+									"    method: 'POST',\r",
+									"    header: 'Content-Type:application/x-www-form-urlencoded',\r",
+									"    body: {mode:'urlencoded',urlencoded: 'email=1010642719@qq.com&password=111111&type=1&imei=95402d8ddfa6765d&region=cn'}\r",
+									"};\r",
+									"\r",
+									"pm.sendRequest(logIn, function (err, response) {   //发送登录请求\r",
+									"    console.log(response.json());\r",
+									"    pm.environment.set(\"uidPurge\", response.json().data.uid);   //取uid\r",
+									"    pm.environment.set(\"sidPurge\", response.json().data.sid);   //取sid\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Gz-Pid",
+								"value": "{{pid}}",
+								"type": "text"
+							},
+							{
+								"key": "Gz-Uid",
+								"value": "{{uidPurge}}",
+								"type": "text"
+							},
+							{
+								"key": "Gz-Sid",
+								"value": "{{sidPurge}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "https://{{loginHost}}/v1/user/purge?uuid={{$guid}}",
+							"protocol": "https",
+							"host": [
+								"{{loginHost}}"
+							],
+							"path": [
+								"v1",
+								"user",
+								"purge"
+							],
+							"query": [
+								{
+									"key": "uuid",
+									"value": "{{$guid}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "注册-注销已注销的账号",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//断言\r",
+									"var resData = JSON.parse(responseBody);\r",
+									"tests[\"判断 errorno 是202\"] = resData.errno === 202;\r",
+									"tests[\"判断 errmsg 是 sid过期\"] = resData.errmsg === \"sid过期\";\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Gz-Pid",
+								"value": "{{pid}}",
+								"type": "text"
+							},
+							{
+								"key": "Gz-Uid",
+								"value": "60ab622f5f5e03001e3e0d97",
+								"type": "text"
+							},
+							{
+								"key": "Gz-Sid",
+								"value": "a2bdce09b5ae9844d3e307a2cc652be5",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "https://{{loginHost}}/v1/user/purge?uuid={{$guid}}",
+							"protocol": "https",
+							"host": [
+								"{{loginHost}}"
+							],
+							"path": [
+								"v1",
+								"user",
+								"purge"
+							],
+							"query": [
+								{
+									"key": "uuid",
+									"value": "{{$guid}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "登录",
 			"item": [
 				{
@@ -15,10 +1677,7 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
-									"//md5加密\r",
-									"var pwdTemp = pm.environment.get(\"pwd\");\r",
-									"var md5Pwd = CryptoJS.MD5(pwdTemp).toString();\r",
-									"pm.environment.set('pwd', md5Pwd);"
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -27,9 +1686,6 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"//reset\r",
-									"pm.environment.set(\"pwd\",\"qwe111111\")\r",
-									"\r",
 									"//断言\r",
 									"pm.test(\"判断 status code 是200\",function(){\r",
 									"    pm.response.to.have.status(200);\r",
@@ -66,7 +1722,7 @@
 								},
 								{
 									"key": "type",
-									"value": "1",
+									"value": "{{type}}",
 									"type": "text"
 								},
 								{
@@ -106,18 +1762,16 @@
 								},
 								{
 									"key": "imei",
-									"value": "95402d8ddfa6765d",
+									"value": "{{imei}}",
 									"type": "text"
 								}
 							]
 						},
 						"url": {
-							"raw": "https://glazero.snser.wang/v1/user/login?uuid={{$guid}}&pid=glazero&t={{$timestamp}}",
+							"raw": "https://{{loginHost}}/v1/user/login?uuid={{$guid}}&pid={{pid}}&t={{$timestamp}}",
 							"protocol": "https",
 							"host": [
-								"glazero",
-								"snser",
-								"wang"
+								"{{loginHost}}"
 							],
 							"path": [
 								"v1",
@@ -131,7 +1785,133 @@
 								},
 								{
 									"key": "pid",
-									"value": "glazero"
+									"value": "{{pid}}"
+								},
+								{
+									"key": "t",
+									"value": "{{$timestamp}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "登录-带客户端信息-用户名&密码正确 遍历region list",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//断言\r",
+									"pm.test(\"判断 status code 是200\",function(){\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var resData = JSON.parse(responseBody);\r",
+									"tests[\"判断 errmsg 是“成功”\"] = resData.errmsg === \"成功\";\r",
+									"\r",
+									"//提取uid、sid\r",
+									"pm.environment.set(\"uid\", resData.data.uid);\r",
+									"pm.environment.set(\"sid\", resData.data.sid);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Host",
+								"value": "glazero.snser.wang",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "region",
+									"value": "cn",
+									"type": "text"
+								},
+								{
+									"key": "type",
+									"value": "{{type}}",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "{{username}}",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "{{pwd}}",
+									"type": "text"
+								},
+								{
+									"key": "osType",
+									"value": "android",
+									"type": "text"
+								},
+								{
+									"key": "osVer",
+									"value": "28",
+									"type": "text"
+								},
+								{
+									"key": "lang",
+									"value": "zh",
+									"type": "text"
+								},
+								{
+									"key": "brand",
+									"value": "Xiaomi",
+									"type": "text"
+								},
+								{
+									"key": "model",
+									"value": "MI 6",
+									"type": "text"
+								},
+								{
+									"key": "imei",
+									"value": "{{imei}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://{{loginHost}}/v1/user/login?uuid={{$guid}}&pid={{pid}}&t={{$timestamp}}",
+							"protocol": "https",
+							"host": [
+								"{{loginHost}}"
+							],
+							"path": [
+								"v1",
+								"user",
+								"login"
+							],
+							"query": [
+								{
+									"key": "uuid",
+									"value": "{{$guid}}"
+								},
+								{
+									"key": "pid",
+									"value": "{{pid}}"
 								},
 								{
 									"key": "t",
@@ -149,10 +1929,13 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
-									"//md5加密\r",
-									"var pwdTemp = pm.environment.get(\"pwd\");\r",
-									"var md5Pwd = CryptoJS.MD5(pwdTemp+\"glazeroTest#\").toString();\r",
-									"pm.environment.set('pwd', md5Pwd);"
+									"var tempN = pm.globals.get(\"globalUsr\");   //获取正确的用户名\r",
+									"pm.environment.set(\"username\", tempN);\r",
+									"\r",
+									"var pwdTemp = pm.globals.get(\"globalmd5\");   //正确密码的md5\r",
+									"var md5Pwd = pwdTemp.reverse();   //反转，制造错误的md5\r",
+									"pm.environment.set('pwd', md5Pwd);\r",
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -161,9 +1944,6 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"//reset\r",
-									"pm.environment.set(\"pwd\",\"qwe111111\")\r",
-									"\r",
 									"//断言\r",
 									"pm.test(\"判断 status code 是200\",function(){\r",
 									"    pm.response.to.have.status(200);\r",
@@ -197,7 +1977,7 @@
 								},
 								{
 									"key": "type",
-									"value": "1",
+									"value": "{{type}}",
 									"type": "text"
 								},
 								{
@@ -237,18 +2017,16 @@
 								},
 								{
 									"key": "imei",
-									"value": "95402d8ddfa6765d",
+									"value": "{{imei}}",
 									"type": "text"
 								}
 							]
 						},
 						"url": {
-							"raw": "https://glazero.snser.wang/v1/user/login?uuid={{$guid}}&pid=glazero&t={{$timestamp}}",
+							"raw": "https://{{loginHost}}/v1/user/login?uuid={{$guid}}&pid={{pid}}&t={{$timestamp}}",
 							"protocol": "https",
 							"host": [
-								"glazero",
-								"snser",
-								"wang"
+								"{{loginHost}}"
 							],
 							"path": [
 								"v1",
@@ -262,7 +2040,7 @@
 								},
 								{
 									"key": "pid",
-									"value": "glazero"
+									"value": "{{pid}}"
 								},
 								{
 									"key": "t",
@@ -280,7 +2058,11 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
-									"pm.environment.set('pwd','');   //密码为空"
+									"var tempN = pm.globals.get(\"globalUsr\");   //获取正确的用户名\r",
+									"pm.environment.set(\"username\", tempN);\r",
+									"\r",
+									"pm.environment.set('pwd','');   //密码为空\r",
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -289,9 +2071,6 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"//reset\r",
-									"pm.environment.set(\"pwd\",\"qwe111111\")\r",
-									"\r",
 									"//断言\r",
 									"pm.test(\"判断 status code 是200\",function(){\r",
 									"    pm.response.to.have.status(200);\r",
@@ -325,7 +2104,7 @@
 								},
 								{
 									"key": "type",
-									"value": "1",
+									"value": "{{type}}",
 									"type": "text"
 								},
 								{
@@ -365,18 +2144,16 @@
 								},
 								{
 									"key": "imei",
-									"value": "95402d8ddfa6765d",
+									"value": "{{imei}}",
 									"type": "text"
 								}
 							]
 						},
 						"url": {
-							"raw": "https://glazero.snser.wang/v1/user/login?uuid={{$guid}}&pid=glazero&t={{$timestamp}}",
+							"raw": "https://{{loginHost}}/v1/user/login?uuid={{$guid}}&pid={{pid}}&t={{$timestamp}}",
 							"protocol": "https",
 							"host": [
-								"glazero",
-								"snser",
-								"wang"
+								"{{loginHost}}"
 							],
 							"path": [
 								"v1",
@@ -390,7 +2167,7 @@
 								},
 								{
 									"key": "pid",
-									"value": "glazero"
+									"value": "{{pid}}"
 								},
 								{
 									"key": "t",
@@ -408,13 +2185,12 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
-									"var usenameTemp = pm.environment.get(\"username\");\r",
-									"pm.environment.set('username', \"glazeroTest#\"+usenameTemp);   //不存在的用户名\r",
+									"var tempN = pm.globals.get(\"globalUsr\");   //获取正确的用户名\r",
+									"pm.environment.set('username', \"glazeroTest#\"+tempN);   //制造不存在的用户名\r",
 									"\r",
-									"//md5加密\r",
-									"var pwdTemp = pm.environment.get(\"pwd\");\r",
-									"var md5Pwd = CryptoJS.MD5(pwdTemp).toString();   \r",
-									"pm.environment.set('pwd', md5Pwd);"
+									"var md5Pwd = pm.globals.get(\"globalmd5\");   //获取正确的密码\r",
+									"pm.environment.set('pwd', md5Pwd);\r",
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -423,10 +2199,6 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"//reset\r",
-									"pm.environment.set(\"username\",\"glazeroinc@gmail.com\");\r",
-									"pm.environment.set(\"pwd\",\"qwe111111\")\r",
-									"\r",
 									"//断言\r",
 									"pm.test(\"判断 status code 是200\",function(){\r",
 									"    pm.response.to.have.status(200);\r",
@@ -460,7 +2232,7 @@
 								},
 								{
 									"key": "type",
-									"value": "1",
+									"value": "{{type}}",
 									"type": "text"
 								},
 								{
@@ -500,18 +2272,16 @@
 								},
 								{
 									"key": "imei",
-									"value": "95402d8ddfa6765d",
+									"value": "{{imei}}",
 									"type": "text"
 								}
 							]
 						},
 						"url": {
-							"raw": "https://glazero.snser.wang/v1/user/login?uuid={{$guid}}&pid=glazero&t={{$timestamp}}",
+							"raw": "https://{{loginHost}}/v1/user/login?uuid={{$guid}}&pid={{pid}}&t={{$timestamp}}",
 							"protocol": "https",
 							"host": [
-								"glazero",
-								"snser",
-								"wang"
+								"{{loginHost}}"
 							],
 							"path": [
 								"v1",
@@ -525,7 +2295,7 @@
 								},
 								{
 									"key": "pid",
-									"value": "glazero"
+									"value": "{{pid}}"
 								},
 								{
 									"key": "t",
@@ -545,10 +2315,9 @@
 								"exec": [
 									"pm.environment.set('username','');   //用户名为空\r",
 									"\r",
-									"//md5加密\r",
-									"var pwdTemp = pm.environment.get(\"pwd\");\r",
-									"var md5Pwd = CryptoJS.MD5(pwdTemp).toString();   \r",
-									"pm.environment.set('pwd', md5Pwd);"
+									"var md5Pwd = pm.globals.get(\"globalmd5\");   //获取正确的密码\r",
+									"pm.environment.set('pwd', md5Pwd);\r",
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -557,10 +2326,6 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"//reset\r",
-									"pm.environment.set(\"username\",\"glazeroinc@gmail.com\");\r",
-									"pm.environment.set(\"pwd\",\"qwe111111\")\r",
-									"\r",
 									"//断言\r",
 									"pm.test(\"判断 status code 是200\",function(){\r",
 									"    pm.response.to.have.status(200);\r",
@@ -594,7 +2359,7 @@
 								},
 								{
 									"key": "type",
-									"value": "1",
+									"value": "{{type}}",
 									"type": "text"
 								},
 								{
@@ -634,18 +2399,16 @@
 								},
 								{
 									"key": "imei",
-									"value": "95402d8ddfa6765d",
+									"value": "{{imei}}",
 									"type": "text"
 								}
 							]
 						},
 						"url": {
-							"raw": "https://glazero.snser.wang/v1/user/login?uuid={{$guid}}&pid=glazero&t={{$timestamp}}",
+							"raw": "https://{{loginHost}}/v1/user/login?uuid={{$guid}}&pid={{pid}}&t={{$timestamp}}",
 							"protocol": "https",
 							"host": [
-								"glazero",
-								"snser",
-								"wang"
+								"{{loginHost}}"
 							],
 							"path": [
 								"v1",
@@ -659,7 +2422,7 @@
 								},
 								{
 									"key": "pid",
-									"value": "glazero"
+									"value": "{{pid}}"
 								},
 								{
 									"key": "t",
@@ -687,10 +2450,6 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"//reset\r",
-									"pm.environment.set(\"username\",\"glazeroinc@gmail.com\");\r",
-									"pm.environment.set(\"pwd\",\"qwe111111\")\r",
-									"\r",
 									"//断言\r",
 									"pm.test(\"判断 status code 是200\",function(){\r",
 									"    pm.response.to.have.status(200);\r",
@@ -724,7 +2483,7 @@
 								},
 								{
 									"key": "type",
-									"value": "1",
+									"value": "{{type}}",
 									"type": "text"
 								},
 								{
@@ -764,18 +2523,16 @@
 								},
 								{
 									"key": "imei",
-									"value": "95402d8ddfa6765d",
+									"value": "{{imei}}",
 									"type": "text"
 								}
 							]
 						},
 						"url": {
-							"raw": "https://glazero.snser.wang/v1/user/login?uuid={{$guid}}&pid=glazero&t={{$timestamp}}",
+							"raw": "https://{{loginHost}}/v1/user/login?uuid={{$guid}}&pid={{pid}}&t={{$timestamp}}",
 							"protocol": "https",
 							"host": [
-								"glazero",
-								"snser",
-								"wang"
+								"{{loginHost}}"
 							],
 							"path": [
 								"v1",
@@ -789,7 +2546,7 @@
 								},
 								{
 									"key": "pid",
-									"value": "glazero"
+									"value": "{{pid}}"
 								},
 								{
 									"key": "t",
@@ -807,13 +2564,13 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
-									"var usenameTemp = pm.environment.get(\"username\");\r",
-									"pm.environment.set('username',\"glazeroTest#\"+usenameTemp);   //不存在的用户名\r",
+									"var tempN = pm.globals.get(\"globalUsr\");   //获取正确的用户名\r",
+									"pm.environment.set('username', \"glazeroTest#\"+tempN);   //制造不存在的用户名\r",
 									"\r",
-									"//md5加密\r",
-									"var pwdTemp = pm.environment.get(\"pwd\");\r",
-									"var md5Pwd = CryptoJS.MD5(pwdTemp+\"glazeroTest#\").toString();   \r",
-									"pm.environment.set('pwd', md5Pwd);"
+									"var pwdTemp = pm.globals.get(\"globalPwd\");   //正确密码的md5\r",
+									"var md5Pwd = pwdTemp.reverse();   //反转，制造错误的md5\r",
+									"pm.environment.set('pwd', md5Pwd);\r",
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -822,10 +2579,6 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"//reset\r",
-									"pm.environment.set(\"username\",\"glazeroinc@gmail.com\");\r",
-									"pm.environment.set(\"pwd\",\"qwe111111\")\r",
-									"\r",
 									"//断言\r",
 									"pm.test(\"判断 status code 是200\",function(){\r",
 									"    pm.response.to.have.status(200);\r",
@@ -859,7 +2612,7 @@
 								},
 								{
 									"key": "type",
-									"value": "1",
+									"value": "{{type}}",
 									"type": "text"
 								},
 								{
@@ -899,18 +2652,16 @@
 								},
 								{
 									"key": "imei",
-									"value": "95402d8ddfa6765d",
+									"value": "{{imei}}",
 									"type": "text"
 								}
 							]
 						},
 						"url": {
-							"raw": "https://glazero.snser.wang/v1/user/login?uuid={{$guid}}&pid=glazero&t={{$timestamp}}",
+							"raw": "https://{{loginHost}}/v1/user/login?uuid={{$guid}}&pid={{pid}}&t={{$timestamp}}",
 							"protocol": "https",
 							"host": [
-								"glazero",
-								"snser",
-								"wang"
+								"{{loginHost}}"
 							],
 							"path": [
 								"v1",
@@ -924,7 +2675,7 @@
 								},
 								{
 									"key": "pid",
-									"value": "glazero"
+									"value": "{{pid}}"
 								},
 								{
 									"key": "t",
@@ -942,12 +2693,17 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
-									"//md5加密\r",
-									"var pwdTemp = pm.environment.get(\"pwd\");\r",
-									"var md5Pwd = CryptoJS.MD5(pwdTemp).toString();\r",
+									"var tempN = pm.globals.get(\"globalUsr\");   //获取正确的用户名\r",
+									"pm.environment.set(\"username\", tempN);\r",
+									"\r",
+									"var md5Pwd = pm.globals.get(\"globalmd5\");   //获取正确的密码\r",
 									"pm.environment.set('pwd', md5Pwd);\r",
 									"\r",
-									"pm.environment.set(\"imei\", \"\");   //imei 为空"
+									"var tempI = pm.environment.get(\"imei\");   //保存原始imei，用于执行脚本后reset\r",
+									"pm.globals.set(\"globalImei\", tempI);\r",
+									"\r",
+									"pm.environment.set(\"imei\", \"\");   //imei 为空\r",
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -956,10 +2712,6 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"//reset\r",
-									"pm.environment.set(\"pwd\",\"qwe111111\")\r",
-									"pm.environment.set(\"imei\", \"95402d8ddfa6765d\");\r",
-									"\r",
 									"//断言\r",
 									"pm.test(\"判断 status code 是200\",function(){\r",
 									"    pm.response.to.have.status(200);\r",
@@ -993,7 +2745,7 @@
 								},
 								{
 									"key": "type",
-									"value": "1",
+									"value": "{{type}}",
 									"type": "text"
 								},
 								{
@@ -1039,12 +2791,10 @@
 							]
 						},
 						"url": {
-							"raw": "https://glazero.snser.wang/v1/user/login?uuid={{$guid}}&pid=glazero&t={{$timestamp}}",
+							"raw": "https://{{loginHost}}/v1/user/login?uuid={{$guid}}&pid={{pid}}&t={{$timestamp}}",
 							"protocol": "https",
 							"host": [
-								"glazero",
-								"snser",
-								"wang"
+								"{{loginHost}}"
 							],
 							"path": [
 								"v1",
@@ -1058,7 +2808,7 @@
 								},
 								{
 									"key": "pid",
-									"value": "glazero"
+									"value": "{{pid}}"
 								},
 								{
 									"key": "t",
@@ -1076,12 +2826,18 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
-									"//md5加密\r",
-									"var pwdTemp = pm.environment.get(\"pwd\");\r",
-									"var md5Pwd = CryptoJS.MD5(pwdTemp).toString();\r",
+									"var tempN = pm.globals.get(\"globalUsr\");   //获取正确的用户名\r",
+									"pm.environment.set(\"username\", tempN);\r",
+									"\r",
+									"var md5Pwd = pm.globals.get(\"globalmd5\");   //获取正确的密码\r",
 									"pm.environment.set('pwd', md5Pwd);\r",
 									"\r",
-									"pm.environment.set(\"imei\", \"qwertyuioplkjhg\");   //imei 格式不正确"
+									"\r",
+									"var tempI = pm.globals.get(\"globalImei\");   //获取正确的imei\r",
+									"var wrongformat = tempI+\"!@#$%^*(\";   //制作格式不正确的 imei\r",
+									"pm.environment.set(\"imei\", wrongformat);\r",
+									"\r",
+									"console.log(\"当前的imei是：\"+pm.environment.get(\"imei\"));"
 								],
 								"type": "text/javascript"
 							}
@@ -1090,10 +2846,6 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"//reset\r",
-									"pm.environment.set(\"pwd\",\"qwe111111\")\r",
-									"pm.environment.set(\"imei\", \"95402d8ddfa6765d\");\r",
-									"\r",
 									"//断言\r",
 									"pm.test(\"判断 status code 是200\",function(){\r",
 									"    pm.response.to.have.status(200);\r",
@@ -1127,7 +2879,7 @@
 								},
 								{
 									"key": "type",
-									"value": "1",
+									"value": "{{type}}",
 									"type": "text"
 								},
 								{
@@ -1173,12 +2925,10 @@
 							]
 						},
 						"url": {
-							"raw": "https://glazero.snser.wang/v1/user/login?uuid={{$guid}}&pid=glazero&t={{$timestamp}}",
+							"raw": "https://{{loginHost}}/v1/user/login?uuid={{$guid}}&pid={{pid}}&t={{$timestamp}}",
 							"protocol": "https",
 							"host": [
-								"glazero",
-								"snser",
-								"wang"
+								"{{loginHost}}"
 							],
 							"path": [
 								"v1",
@@ -1192,7 +2942,7 @@
 								},
 								{
 									"key": "pid",
-									"value": "glazero"
+									"value": "{{pid}}"
 								},
 								{
 									"key": "t",
@@ -1210,10 +2960,14 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
-									"//md5加密\r",
-									"var pwdTemp = pm.environment.get(\"pwd\");\r",
-									"var md5Pwd = CryptoJS.MD5(pwdTemp).toString();\r",
-									"pm.environment.set('pwd', md5Pwd);"
+									"var tempN = pm.globals.get(\"globalUsr\");   //获取正确的用户名\r",
+									"pm.environment.set(\"username\", tempN);\r",
+									"\r",
+									"var md5Pwd = pm.globals.get(\"globalmd5\");   //获取正确的密码\r",
+									"pm.environment.set('pwd', md5Pwd);\r",
+									"\r",
+									"var tempI = pm.globals.get(\"globalImei\");   //获取正确的imei\r",
+									"pm.environment.set(\"imei\", tempI);"
 								],
 								"type": "text/javascript"
 							}
@@ -1222,9 +2976,6 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"//reset\r",
-									"pm.environment.set(\"pwd\",\"qwe111111\")\r",
-									"\r",
 									"//断言\r",
 									"pm.test(\"判断 status code 是200\",function(){\r",
 									"    pm.response.to.have.status(200);\r",
@@ -1252,7 +3003,7 @@
 							"urlencoded": [
 								{
 									"key": "type",
-									"value": "1",
+									"value": "{{type}}",
 									"type": "text"
 								},
 								{
@@ -1267,18 +3018,16 @@
 								},
 								{
 									"key": "imei",
-									"value": "95402d8ddfa6765d",
+									"value": "{{imei}}",
 									"type": "text"
 								}
 							]
 						},
 						"url": {
-							"raw": "https://glazero.snser.wang/v1/user/login?uuid={{$guid}}&pid=glazero",
+							"raw": "https://{{loginHost}}/v1/user/login?uuid={{$guid}}&pid={{pid}}",
 							"protocol": "https",
 							"host": [
-								"glazero",
-								"snser",
-								"wang"
+								"{{loginHost}}"
 							],
 							"path": [
 								"v1",
@@ -1292,7 +3041,7 @@
 								},
 								{
 									"key": "pid",
-									"value": "glazero"
+									"value": "{{pid}}"
 								}
 							]
 						}
@@ -1300,15 +3049,25 @@
 					"response": []
 				},
 				{
-					"name": "登录-type字段非1",
+					"name": "登录-type字段为2",
 					"event": [
 						{
 							"listen": "prerequest",
 							"script": {
 								"exec": [
-									"var pwdTemp = pm.environment.get(\"pwd\");\r",
-									"var md5Pwd = CryptoJS.MD5(pwdTemp).toString();\r",
-									"pm.environment.set('pwd', md5Pwd);"
+									"var tempN = pm.globals.get(\"globalUsr\");   //获取正确的用户名\r",
+									"pm.environment.set(\"username\", tempN);\r",
+									"\r",
+									"var md5Pwd = pm.globals.get(\"globalmd5\");   //获取正确的密码\r",
+									"pm.environment.set('pwd', md5Pwd);\r",
+									"\r",
+									"var tempI = pm.globals.get(\"globalImei\");   //获取正确的imei\r",
+									"pm.environment.set(\"imei\", tempI);\r",
+									"\r",
+									"var tempT = pm.environment.get(\"type\");\r",
+									"pm.globals.set(\"globalType\", tempT);   //保存type原始值\r",
+									"\r",
+									"pm.environment.set(\"type\", 2);"
 								],
 								"type": "text/javascript"
 							}
@@ -1317,7 +3076,11 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.environment.set(\"pwd\",\"qwe111111\")"
+									"//目前只支持邮箱，其他类型未开发\r",
+									"//登录类型\r",
+									"//1:邮箱\r",
+									"//2:手机号\r",
+									"//3:其他"
 								],
 								"type": "text/javascript"
 							}
@@ -1342,7 +3105,7 @@
 								},
 								{
 									"key": "type",
-									"value": "2",
+									"value": "{{type}}",
 									"type": "text"
 								},
 								{
@@ -1382,18 +3145,16 @@
 								},
 								{
 									"key": "imei",
-									"value": "95402d8ddfa6765d",
+									"value": "{{imei}}",
 									"type": "text"
 								}
 							]
 						},
 						"url": {
-							"raw": "https://glazero.snser.wang/v1/user/login?uuid={{$guid}}&pid=glazero&t={{$timestamp}}",
+							"raw": "https://{{loginHost}}/v1/user/login?uuid={{$guid}}&pid={{pid}}&t={{$timestamp}}",
 							"protocol": "https",
 							"host": [
-								"glazero",
-								"snser",
-								"wang"
+								"{{loginHost}}"
 							],
 							"path": [
 								"v1",
@@ -1407,7 +3168,7 @@
 								},
 								{
 									"key": "pid",
-									"value": "glazero"
+									"value": "{{pid}}"
 								},
 								{
 									"key": "t",
@@ -1425,9 +3186,17 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
-									"var pwdTemp = pm.environment.get(\"pwd\");\r",
-									"var md5Pwd = CryptoJS.MD5(pwdTemp).toString();\r",
-									"pm.environment.set('pwd', md5Pwd);"
+									"var tempN = pm.globals.get(\"globalUsr\");   //获取正确的用户名\r",
+									"pm.environment.set(\"username\", tempN);\r",
+									"\r",
+									"var md5Pwd = pm.globals.get(\"globalmd5\");   //获取正确的密码\r",
+									"pm.environment.set('pwd', md5Pwd);\r",
+									"\r",
+									"var tempI = pm.globals.get(\"globalImei\");   //获取正确的imei\r",
+									"pm.environment.set(\"imei\", tempI);\r",
+									"\r",
+									"pm.environment.set(\"type\", '');\r",
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -1436,7 +3205,11 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.environment.set(\"pwd\",\"qwe111111\")"
+									"//目前只支持邮箱，其他类型未开发\r",
+									"//登录类型\r",
+									"//1:邮箱\r",
+									"//2:手机号\r",
+									"//3:其他"
 								],
 								"type": "text/javascript"
 							}
@@ -1507,12 +3280,10 @@
 							]
 						},
 						"url": {
-							"raw": "https://glazero.snser.wang/v1/user/login?uuid={{$guid}}&pid=glazero&t={{$timestamp}}",
+							"raw": "https://{{loginHost}}/v1/user/login?uuid={{$guid}}&pid=glazero&t={{$timestamp}}",
 							"protocol": "https",
 							"host": [
-								"glazero",
-								"snser",
-								"wang"
+								"{{loginHost}}"
 							],
 							"path": [
 								"v1",
@@ -1537,6 +3308,72 @@
 					},
 					"response": []
 				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"console.log(\"登录文件夹Pre Script开始执行：\");",
+							"",
+							"//保存原始的用户名，例如，glazeroinc@gmail.com",
+							"var tempN = pm.environment.get(\"username\");",
+							"pm.globals.set(\"globalUsr\", tempN);",
+							"console.log(\"当前globalUsr是：\" +pm.globals.get(\"globalUsr\"));",
+							"",
+							"//保存原始的密码，例如，qwe111111",
+							"var tempP = pm.environment.get(\"pwd\");",
+							"pm.globals.set(\"globalPwd\", tempP);",
+							"console.log(\"当前globalPwd是：\" +pm.globals.get(\"globalPwd\"));",
+							"",
+							"//保存原始的imei，例如，95402d8ddfa6765d",
+							"var tempI = pm.environment.get(\"imei\");",
+							"pm.globals.set(\"globalImei\", tempI);",
+							"console.log(\"当前globalImei是：\" +pm.globals.get(\"globalImei\"));",
+							"",
+							"//保存原始的Type，例如，1",
+							"var tempT = pm.environment.get(\"type\");",
+							"pm.globals.set(\"globalType\", tempT);",
+							"console.log(\"当前globalType是：\" +pm.globals.get(\"globalType\"));",
+							"",
+							"//登录类的接口统一在此处设置md5加密处理，不用每个脚本都重复处理。",
+							"//运行要求：整个文件一起运行，不能单独运行文件夹里面的单个请求。",
+							"var pwdTemp = pm.environment.get(\"pwd\");",
+							"var md5Pwd = CryptoJS.MD5(pwdTemp).toString();",
+							"pm.environment.set('pwd', md5Pwd);",
+							"",
+							"//保存原始密码的md5",
+							"pm.globals.set(\"globalmd5\", md5Pwd);",
+							"",
+							"console.log(\"登录文件夹Pre Script执行结束！\")",
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"//reset 原始用户名",
+							"var tempN = pm.globals.get(\"globalUsr\");",
+							"pm.environment.set(\"username\", tempN);",
+							"",
+							"//reset 原始密码",
+							"var tempP = pm.globals.get(\"globalPwd\");",
+							"pm.environment.set(\"pwd\",tempP);",
+							"",
+							"//reset 原始imei",
+							"var tempI = pm.globals.get(\"globalImei\");",
+							"pm.environment.set(\"imei\", tempI);",
+							"",
+							"//reset 原始type",
+							"var tempT = pm.globals.get(\"globalType\");",
+							"pm.environment.set(\"type\", tempT);"
+						]
+					}
+				}
 			]
 		},
 		{
@@ -1552,14 +3389,68 @@
 									"var resData = JSON.parse(responseBody);\r",
 									"tests[\"判断 errorno 是0\"] = resData.errno === 0\r",
 									"\r",
-									"tests[\"判断设备列表中的数据：业务id\"] = resData.data.list[0].pid === \"glazero\"\r",
-									"tests[\"判断设备列表中的数据：设备类型\"] = 1\r",
+									"var listEnd = resData.data.list.length   //设备列表长度，即设备数量\r",
+									"if(listEnd == 0){\r",
+									"    pm.environment.set(\"devSn\", \"1000\");   //该用户未绑定任何设备\r",
+									"    console.log(\"该用户未绑定任何设备\")\r",
+									"}\r",
+									"else{\r",
+									"    for(var i = 0;i<listEnd;i++){   //遍历设备列表\r",
+									"        if(resData.data.list[i].pid == \"glazero\" && resData.data.list[i].devType == 1){\r",
+									"            pm.environment.set(\"devSn\", resData.data.list[i].sn);   //获取门铃产品的设备序列号，作为修改设备名称接口的入参\r",
+									"            pm.environment.set(\"devName\", resData.data.list[i].name);   //获取门铃产品的设备名字，作为修改设备名称接口的入参\r",
+									"            tests[\"判断设备列表中的数据：业务id\"] = resData.data.list[0].pid === \"glazero\"   //有门铃设备再去断言，该值对于门铃设备固定\r",
+									"            tests[\"判断设备列表中的数据：设备类型\"] = 1   //该值对于门铃设备固定\r",
+									"            break;\r",
+									"        }\r",
+									"        else{\r",
+									"            pm.environment.set(\"devSn\", \"2000\");   //该用户没有绑定门铃设备的时候为该值，修改设备名称是用作判断条件\r",
+									"            console.log(\"该用户没有绑定门铃设备\")\r",
+									"        }\r",
+									"    }\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"//获取设备列表之前 调用登录接口 获取对应账号的sid和uid\r",
+									"function uuid() {   //生成uuid\r",
+									"    var s = [];\r",
+									"    var hexDigits = \"0123456789abcdef\";\r",
+									"    for (var i = 0; i < 36; i++) {\r",
+									"        s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);\r",
+									"    }\r",
+									"    s[14] = \"4\";  // bits 12-15 of the time_hi_and_version field to 0010\r",
+									"    s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1);  // bits 6-7 of the clock_seq_hi_and_reserved to 01\r",
+									"    s[8] = s[13] = s[18] = s[23] = \"-\";\r",
+									" \r",
+									"    var uuid = s.join(\"\");\r",
+									"    return uuid;\r",
 									"\r",
-									"//pm.test(\"判断设备列表中的数据：业务id、设备类型\", function(){\r",
-									"    var jsonData = pm.response.json()\r",
-									"    pm.expect(jsonData.data.list[0].pid).to.eql(\"glazero\");\r",
-									"    pm.expect(jsonData.data.list[0].devType).to.eql(1);\r",
-									"//})"
+									"}\r",
+									"\r",
+									"var tempL = pm.environment.get(\"loginHost\");\r",
+									"var tempGuid = uuid();\r",
+									"var tempP = pm.environment.get(\"pid\");\r",
+									"\r",
+									"const logIn = {   //登录接口的请求信息\r",
+									"    url:'https://'+tempL+'/v1/user/login?uuid='+tempGuid+'&pid='+tempP,\r",
+									"    method: 'POST',\r",
+									"    header: 'Content-Type:application/x-www-form-urlencoded',\r",
+									"    body: {mode:'urlencoded',urlencoded: 'email=glazeroinc@gmail.com&password=0c4352b6d06ff36f1a795b97610da693&type=1&imei=95402d8ddfa6765d&region=cn'}\r",
+									"};\r",
+									"\r",
+									"pm.sendRequest(logIn, function (err, response) {   //发送登录请求\r",
+									"    console.log(response.json());\r",
+									"    pm.environment.set(\"uid\", response.json().data.uid);   //取uid\r",
+									"    pm.environment.set(\"sid\", response.json().data.sid);   //取sid\r",
+									"});\r",
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -1580,25 +3471,20 @@
 							},
 							{
 								"key": "Gz-Pid",
-								"value": "glazero",
+								"value": "{{pid}}",
 								"type": "text"
 							},
 							{
 								"key": "Host",
-								"value": "glazero.snser.wang",
+								"value": "{{loginHost}}",
 								"type": "text"
 							}
 						],
 						"url": {
-							"raw": "https://vpc-test-164097185.cn-northwest-1.elb.amazonaws.com.cn/v1/dev/getList?uuid={{$guid}}&pid=glazero&t={{$timestamp}}",
+							"raw": "https://{{loginHost}}/v1/dev/getList?uuid={{$guid}}&pid={{pid}}&t={{$timestamp}}",
 							"protocol": "https",
 							"host": [
-								"vpc-test-164097185",
-								"cn-northwest-1",
-								"elb",
-								"amazonaws",
-								"com",
-								"cn"
+								"{{loginHost}}"
 							],
 							"path": [
 								"v1",
@@ -1612,12 +3498,117 @@
 								},
 								{
 									"key": "pid",
-									"value": "glazero"
+									"value": "{{pid}}"
 								},
 								{
 									"key": "t",
 									"value": "{{$timestamp}}"
 								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "修改设备名称",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var resData = JSON.parse(responseBody);\r",
+									"tests[\"判断 errorno 是：0\"] = resData.errno === 0\r",
+									"tests[\"判断 errmsg 是：成功\"] = resData.errmsg === \"成功\"\r",
+									"\r",
+									"\r",
+									"//再次调用获取设备接口查看修改设备的名字是修改后的"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var tempSn = pm.environment.get(\"devSn\");\r",
+									"var tempNa = pm.environment.get(\"devName\");\r",
+									"\r",
+									"if(tempSn == \"1000\"){\r",
+									"    console.log(\"该用户未绑定任何设备\");\r",
+									"}\r",
+									"else if(tempSn == \"2000\"){\r",
+									"    console.log(\"该用户没有绑定门铃设备\");\r",
+									"}\r",
+									"else{\r",
+									"    console.log(\"该用户绑定了门铃，sn是：\"+tempSn+\"name是：\"+tempNa);\r",
+									"    var tempNaEdit = tempNa.reverse();   //对原有的设备名字进行反转，作为修改后的名字\r",
+									"    pm.environment.set(\"devName\", tempNaEdit);   \r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Gz-Uid",
+								"value": "{{uid}}",
+								"type": "text"
+							},
+							{
+								"key": "Gz-Sid",
+								"value": "{{sid}}",
+								"type": "text"
+							},
+							{
+								"key": "Gz-Pid",
+								"value": "{{pid}}",
+								"type": "text"
+							},
+							{
+								"key": "Host",
+								"value": "{{loginHost}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "sn",
+									"value": "{{devSn}}",
+									"type": "text"
+								},
+								{
+									"key": "title",
+									"value": "{{devName}}",
+									"type": "text"
+								},
+								{
+									"key": "devType",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://{{loginHost}}/v1/dev/updateTitle",
+							"protocol": "https",
+							"host": [
+								"{{loginHost}}"
+							],
+							"path": [
+								"v1",
+								"dev",
+								"updateTitle"
 							]
 						}
 					},
@@ -1630,7 +3621,7 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"var a = pm.globals.get(\"G_Temp\");   //获取运行脚本前保存下来的原始sid\r",
+									"var a = pm.globals.get(\"globalTemp\");   //获取运行脚本前保存下来的原始sid\r",
 									"pm.environment.set(\"sid\", a);   //恢复原始sid\r",
 									"\r",
 									"//断言\r",
@@ -1656,8 +3647,9 @@
 							"script": {
 								"exec": [
 									"var sidTemp1 = pm.environment.get(\"sid\");\r",
-									"pm.globals.set(\"G_Temp\", sidTemp1);   //保存原始sid，用于执行脚本后恢复sid值\r",
-									"sidTemp2 = sidTemp1.reverse();   //反转原始sid，制造格式相同的非法sid\r",
+									"pm.globals.set(\"globalTemp\", sidTemp1);   //保存原始sid，用于执行脚本后恢复sid值\r",
+									"\r",
+									"var sidTemp2 = sidTemp1.reverse();   //反转原始sid，制造格式相同的非法sid\r",
 									"pm.environment.set(\"sid\", sidTemp2);"
 								],
 								"type": "text/javascript"
@@ -1689,15 +3681,10 @@
 							}
 						],
 						"url": {
-							"raw": "https://vpc-test-164097185.cn-northwest-1.elb.amazonaws.com.cn/v1/dev/getList?uuid={{$guid}}&pid=glazero&t={{$timestamp}}",
+							"raw": "https://{{amazonaws}}/v1/dev/getList?uuid={{$guid}}&pid=glazero&t={{$timestamp}}",
 							"protocol": "https",
 							"host": [
-								"vpc-test-164097185",
-								"cn-northwest-1",
-								"elb",
-								"amazonaws",
-								"com",
-								"cn"
+								"{{amazonaws}}"
 							],
 							"path": [
 								"v1",
@@ -1723,6 +3710,148 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "忘记密码-reset",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://glazero.snser.wang/v1/user/resetPassword",
+					"protocol": "https",
+					"host": [
+						"glazero",
+						"snser",
+						"wang"
+					],
+					"path": [
+						"v1",
+						"user",
+						"resetPassword"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "获取事件",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"//获取设备列表之前 调用登录接口 获取对应账号的sid和uid\r",
+							"function uuid() {   //生成uuid\r",
+							"    var s = [];\r",
+							"    var hexDigits = \"0123456789abcdef\";\r",
+							"    for (var i = 0; i < 36; i++) {\r",
+							"        s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);\r",
+							"    }\r",
+							"    s[14] = \"4\";  // bits 12-15 of the time_hi_and_version field to 0010\r",
+							"    s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1);  // bits 6-7 of the clock_seq_hi_and_reserved to 01\r",
+							"    s[8] = s[13] = s[18] = s[23] = \"-\";\r",
+							" \r",
+							"    var uuid = s.join(\"\");\r",
+							"    return uuid;\r",
+							"\r",
+							"}\r",
+							"\r",
+							"var tempL = pm.environment.get(\"loginHost\");\r",
+							"var tempGuid = uuid();\r",
+							"var tempP = pm.environment.get(\"pid\");\r",
+							"\r",
+							"const logIn = {   //登录接口的请求信息\r",
+							"    url:'https://'+tempL+'/v1/user/login?uuid='+tempGuid+'&pid='+tempP,\r",
+							"    method: 'POST',\r",
+							"    header: 'Content-Type:application/x-www-form-urlencoded',\r",
+							"    body: {mode:'urlencoded',urlencoded: 'email=glazeroinc@gmail.com&password=0c4352b6d06ff36f1a795b97610da693&type=1&imei=95402d8ddfa6765d&region=cn'}\r",
+							"};\r",
+							"\r",
+							"pm.sendRequest(logIn, function (err, response) {   //发送登录请求\r",
+							"    console.log(response.json());\r",
+							"    pm.environment.set(\"uid\", response.json().data.uid);   //取uid\r",
+							"    pm.environment.set(\"sid\", response.json().data.sid);   //取sid\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Gz-Pid",
+						"value": "{{pid}}",
+						"type": "text"
+					},
+					{
+						"key": "Gz-Uid",
+						"value": "{{uid}}",
+						"type": "text"
+					},
+					{
+						"key": "Gz-Sid",
+						"value": "{{sid}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "sn[]",
+							"value": "6c200566e67af3c292xkwm",
+							"type": "text"
+						},
+						{
+							"key": "eventTimeLt",
+							"value": "1619798400000",
+							"type": "text"
+						},
+						{
+							"key": "eventTimeGt",
+							"value": "1622476799000",
+							"type": "text"
+						},
+						{
+							"key": "timezone",
+							"value": "+08:00",
+							"type": "text"
+						},
+						{
+							"key": "uniformType",
+							"value": "pass",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https/{{loginHost}}/v1/event/getDayList?uuid={{$guid}}&pid={{pid}}",
+					"host": [
+						"https"
+					],
+					"path": [
+						"",
+						"{{loginHost}}",
+						"v1",
+						"event",
+						"getDayList"
+					],
+					"query": [
+						{
+							"key": "uuid",
+							"value": "{{$guid}}"
+						},
+						{
+							"key": "pid",
+							"value": "{{pid}}"
+						}
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }
