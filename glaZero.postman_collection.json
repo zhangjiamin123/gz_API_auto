@@ -168,10 +168,10 @@
 							]
 						},
 						"url": {
-							"raw": "https://{{amazonaws}}/v1/user/getRegStatus?uuid={{$guid}}&pid={{pid}}",
+							"raw": "https://{{loginHost}}/v1/user/getRegStatus?uuid={{$guid}}&pid={{pid}}",
 							"protocol": "https",
 							"host": [
-								"{{amazonaws}}"
+								"{{loginHost}}"
 							],
 							"path": [
 								"v1",
@@ -232,10 +232,10 @@
 							]
 						},
 						"url": {
-							"raw": "https://{{amazonaws}}/v1/user/getRegStatus?uuid={{$guid}}&pid={{pid}}",
+							"raw": "https://{{loginHost}}/v1/user/getRegStatus?uuid={{$guid}}&pid={{pid}}",
 							"protocol": "https",
 							"host": [
-								"{{amazonaws}}"
+								"{{loginHost}}"
 							],
 							"path": [
 								"v1",
@@ -299,10 +299,10 @@
 							]
 						},
 						"url": {
-							"raw": "https://{{amazonaws}}/v1/user/getRegStatus?uuid={{$guid}}&pid={{pid}}",
+							"raw": "https://{{loginHost}}/v1/user/getRegStatus?uuid={{$guid}}&pid={{pid}}",
 							"protocol": "https",
 							"host": [
-								"{{amazonaws}}"
+								"{{loginHost}}"
 							],
 							"path": [
 								"v1",
@@ -366,10 +366,10 @@
 							]
 						},
 						"url": {
-							"raw": "https://{{amazonaws}}/v1/user/getRegStatus?uuid={{$guid}}&pid={{pid}}",
+							"raw": "https://{{loginHost}}/v1/user/getRegStatus?uuid={{$guid}}&pid={{pid}}",
 							"protocol": "https",
 							"host": [
-								"{{amazonaws}}"
+								"{{loginHost}}"
 							],
 							"path": [
 								"v1",
@@ -433,10 +433,10 @@
 							]
 						},
 						"url": {
-							"raw": "https://{{amazonaws}}/v1/user/getRegStatus?uuid={{$guid}}&pid={{pid}}",
+							"raw": "https://{{loginHost}}/v1/user/getRegStatus?uuid={{$guid}}&pid={{pid}}",
 							"protocol": "https",
 							"host": [
-								"{{amazonaws}}"
+								"{{loginHost}}"
 							],
 							"path": [
 								"v1",
@@ -520,10 +520,10 @@
 							]
 						},
 						"url": {
-							"raw": "https://{{amazonaws}}/v1/user/register?uuid={{$guid}}",
+							"raw": "https://{{loginHost}}/v1/user/register?uuid={{$guid}}",
 							"protocol": "https",
 							"host": [
-								"{{amazonaws}}"
+								"{{loginHost}}"
 							],
 							"path": [
 								"v1",
@@ -612,10 +612,10 @@
 							]
 						},
 						"url": {
-							"raw": "https://{{amazonaws}}/v1/user/register?uuid={{$guid}}",
+							"raw": "https://{{loginHost}}/v1/user/register?uuid={{$guid}}",
 							"protocol": "https",
 							"host": [
-								"{{amazonaws}}"
+								"{{loginHost}}"
 							],
 							"path": [
 								"v1",
@@ -705,10 +705,10 @@
 							]
 						},
 						"url": {
-							"raw": "https://{{amazonaws}}/v1/user/register?uuid={{$guid}}",
+							"raw": "https://{{loginHost}}/v1/user/register?uuid={{$guid}}",
 							"protocol": "https",
 							"host": [
-								"{{amazonaws}}"
+								"{{loginHost}}"
 							],
 							"path": [
 								"v1",
@@ -798,10 +798,10 @@
 							]
 						},
 						"url": {
-							"raw": "https://{{amazonaws}}/v1/user/register?uuid={{$guid}}",
+							"raw": "https://{{loginHost}}/v1/user/register?uuid={{$guid}}",
 							"protocol": "https",
 							"host": [
-								"{{amazonaws}}"
+								"{{loginHost}}"
 							],
 							"path": [
 								"v1",
@@ -1453,7 +1453,7 @@
 					"response": []
 				},
 				{
-					"name": "注册-注销账号",
+					"name": "注销账号-注销正常账号",
 					"event": [
 						{
 							"listen": "test",
@@ -1596,7 +1596,7 @@
 					"response": []
 				},
 				{
-					"name": "注册-注销已注销的账号",
+					"name": "注销账号-注销已注销的账号",
 					"event": [
 						{
 							"listen": "test",
@@ -3370,7 +3370,8 @@
 							"",
 							"//reset 原始type",
 							"var tempT = pm.globals.get(\"globalType\");",
-							"pm.environment.set(\"type\", tempT);"
+							"pm.environment.set(\"type\", tempT);",
+							""
 						]
 					}
 				}
@@ -3681,10 +3682,10 @@
 							}
 						],
 						"url": {
-							"raw": "https://{{amazonaws}}/v1/dev/getList?uuid={{$guid}}&pid=glazero&t={{$timestamp}}",
+							"raw": "https://{{loginHost}}/v1/dev/getList?uuid={{$guid}}&pid=glazero&t={{$timestamp}}",
 							"protocol": "https",
 							"host": [
-								"{{amazonaws}}"
+								"{{loginHost}}"
 							],
 							"path": [
 								"v1",
