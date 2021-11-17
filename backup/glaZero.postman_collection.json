@@ -1,0 +1,1728 @@
+{
+	"info": {
+		"_postman_id": "26a36b7b-c07b-4149-b107-9c4808a36ebe",
+		"name": "glaZero",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "登录",
+			"item": [
+				{
+					"name": "登录-带客户端信息-用户名&密码正确",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"//md5加密\r",
+									"var pwdTemp = pm.environment.get(\"pwd\");\r",
+									"var md5Pwd = CryptoJS.MD5(pwdTemp).toString();\r",
+									"pm.environment.set('pwd', md5Pwd);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//reset\r",
+									"pm.environment.set(\"pwd\",\"qwe111111\")\r",
+									"\r",
+									"//断言\r",
+									"pm.test(\"判断 status code 是200\",function(){\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var resData = JSON.parse(responseBody);\r",
+									"tests[\"判断 errmsg 是“成功”\"] = resData.errmsg === \"成功\";\r",
+									"\r",
+									"//提取uid、sid\r",
+									"pm.environment.set(\"uid\", resData.data.uid);\r",
+									"pm.environment.set(\"sid\", resData.data.sid);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Host",
+								"value": "glazero.snser.wang",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "region",
+									"value": "cn",
+									"type": "text"
+								},
+								{
+									"key": "type",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "{{username}}",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "{{pwd}}",
+									"type": "text"
+								},
+								{
+									"key": "osType",
+									"value": "android",
+									"type": "text"
+								},
+								{
+									"key": "osVer",
+									"value": "28",
+									"type": "text"
+								},
+								{
+									"key": "lang",
+									"value": "zh",
+									"type": "text"
+								},
+								{
+									"key": "brand",
+									"value": "Xiaomi",
+									"type": "text"
+								},
+								{
+									"key": "model",
+									"value": "MI 6",
+									"type": "text"
+								},
+								{
+									"key": "imei",
+									"value": "95402d8ddfa6765d",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://glazero.snser.wang/v1/user/login?uuid={{$guid}}&pid=glazero&t={{$timestamp}}",
+							"protocol": "https",
+							"host": [
+								"glazero",
+								"snser",
+								"wang"
+							],
+							"path": [
+								"v1",
+								"user",
+								"login"
+							],
+							"query": [
+								{
+									"key": "uuid",
+									"value": "{{$guid}}"
+								},
+								{
+									"key": "pid",
+									"value": "glazero"
+								},
+								{
+									"key": "t",
+									"value": "{{$timestamp}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "登录-带客户端信息-用户名正确&密码错误",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"//md5加密\r",
+									"var pwdTemp = pm.environment.get(\"pwd\");\r",
+									"var md5Pwd = CryptoJS.MD5(pwdTemp+\"glazeroTest#\").toString();\r",
+									"pm.environment.set('pwd', md5Pwd);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//reset\r",
+									"pm.environment.set(\"pwd\",\"qwe111111\")\r",
+									"\r",
+									"//断言\r",
+									"pm.test(\"判断 status code 是200\",function(){\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var resData = JSON.parse(responseBody);\r",
+									"tests[\"判断 errorno 是1\"] = resData.errno === 1;\r",
+									"tests[\"判断 errmsg 是“失败”\"] = resData.errmsg === \"失败\";\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Host",
+								"value": "glazero.snser.wang",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "region",
+									"value": "cn",
+									"type": "text"
+								},
+								{
+									"key": "type",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "{{username}}",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "{{pwd}}",
+									"type": "text"
+								},
+								{
+									"key": "osType",
+									"value": "android",
+									"type": "text"
+								},
+								{
+									"key": "osVer",
+									"value": "28",
+									"type": "text"
+								},
+								{
+									"key": "lang",
+									"value": "zh",
+									"type": "text"
+								},
+								{
+									"key": "brand",
+									"value": "Xiaomi",
+									"type": "text"
+								},
+								{
+									"key": "model",
+									"value": "MI 6",
+									"type": "text"
+								},
+								{
+									"key": "imei",
+									"value": "95402d8ddfa6765d",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://glazero.snser.wang/v1/user/login?uuid={{$guid}}&pid=glazero&t={{$timestamp}}",
+							"protocol": "https",
+							"host": [
+								"glazero",
+								"snser",
+								"wang"
+							],
+							"path": [
+								"v1",
+								"user",
+								"login"
+							],
+							"query": [
+								{
+									"key": "uuid",
+									"value": "{{$guid}}"
+								},
+								{
+									"key": "pid",
+									"value": "glazero"
+								},
+								{
+									"key": "t",
+									"value": "{{$timestamp}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "登录-带客户端信息-密码字段为空",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set('pwd','');   //密码为空"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//reset\r",
+									"pm.environment.set(\"pwd\",\"qwe111111\")\r",
+									"\r",
+									"//断言\r",
+									"pm.test(\"判断 status code 是200\",function(){\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var resData = JSON.parse(responseBody);\r",
+									"tests[\"判断 errorno 是100\"] = resData.errno === 100;\r",
+									"tests[\"判断 errmsg 是“参数错误”\"] = resData.errmsg === \"参数错误\";\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Host",
+								"value": "glazero.snser.wang",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "region",
+									"value": "cn",
+									"type": "text"
+								},
+								{
+									"key": "type",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "{{username}}",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "{{pwd}}",
+									"type": "text"
+								},
+								{
+									"key": "osType",
+									"value": "android",
+									"type": "text"
+								},
+								{
+									"key": "osVer",
+									"value": "28",
+									"type": "text"
+								},
+								{
+									"key": "lang",
+									"value": "zh",
+									"type": "text"
+								},
+								{
+									"key": "brand",
+									"value": "Xiaomi",
+									"type": "text"
+								},
+								{
+									"key": "model",
+									"value": "MI 6",
+									"type": "text"
+								},
+								{
+									"key": "imei",
+									"value": "95402d8ddfa6765d",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://glazero.snser.wang/v1/user/login?uuid={{$guid}}&pid=glazero&t={{$timestamp}}",
+							"protocol": "https",
+							"host": [
+								"glazero",
+								"snser",
+								"wang"
+							],
+							"path": [
+								"v1",
+								"user",
+								"login"
+							],
+							"query": [
+								{
+									"key": "uuid",
+									"value": "{{$guid}}"
+								},
+								{
+									"key": "pid",
+									"value": "glazero"
+								},
+								{
+									"key": "t",
+									"value": "{{$timestamp}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "登录-带客户端信息-用户名错误&密码正确",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var usenameTemp = pm.environment.get(\"username\");\r",
+									"pm.environment.set('username', \"glazeroTest#\"+usenameTemp);   //不存在的用户名\r",
+									"\r",
+									"//md5加密\r",
+									"var pwdTemp = pm.environment.get(\"pwd\");\r",
+									"var md5Pwd = CryptoJS.MD5(pwdTemp).toString();   \r",
+									"pm.environment.set('pwd', md5Pwd);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//reset\r",
+									"pm.environment.set(\"username\",\"glazeroinc@gmail.com\");\r",
+									"pm.environment.set(\"pwd\",\"qwe111111\")\r",
+									"\r",
+									"//断言\r",
+									"pm.test(\"判断 status code 是200\",function(){\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var resData = JSON.parse(responseBody);\r",
+									"tests[\"判断 errorno 是1\"] = resData.errno === 1;\r",
+									"tests[\"判断 errmsg 是“失败”\"] = resData.errmsg === \"失败\";\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Host",
+								"value": "glazero.snser.wang",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "region",
+									"value": "cn",
+									"type": "text"
+								},
+								{
+									"key": "type",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "{{username}}",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "{{pwd}}",
+									"type": "text"
+								},
+								{
+									"key": "osType",
+									"value": "android",
+									"type": "text"
+								},
+								{
+									"key": "osVer",
+									"value": "28",
+									"type": "text"
+								},
+								{
+									"key": "lang",
+									"value": "zh",
+									"type": "text"
+								},
+								{
+									"key": "brand",
+									"value": "Xiaomi",
+									"type": "text"
+								},
+								{
+									"key": "model",
+									"value": "MI 6",
+									"type": "text"
+								},
+								{
+									"key": "imei",
+									"value": "95402d8ddfa6765d",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://glazero.snser.wang/v1/user/login?uuid={{$guid}}&pid=glazero&t={{$timestamp}}",
+							"protocol": "https",
+							"host": [
+								"glazero",
+								"snser",
+								"wang"
+							],
+							"path": [
+								"v1",
+								"user",
+								"login"
+							],
+							"query": [
+								{
+									"key": "uuid",
+									"value": "{{$guid}}"
+								},
+								{
+									"key": "pid",
+									"value": "glazero"
+								},
+								{
+									"key": "t",
+									"value": "{{$timestamp}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "登录-带客户端信息-用户名字段为空",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set('username','');   //用户名为空\r",
+									"\r",
+									"//md5加密\r",
+									"var pwdTemp = pm.environment.get(\"pwd\");\r",
+									"var md5Pwd = CryptoJS.MD5(pwdTemp).toString();   \r",
+									"pm.environment.set('pwd', md5Pwd);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//reset\r",
+									"pm.environment.set(\"username\",\"glazeroinc@gmail.com\");\r",
+									"pm.environment.set(\"pwd\",\"qwe111111\")\r",
+									"\r",
+									"//断言\r",
+									"pm.test(\"判断 status code 是200\",function(){\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var resData = JSON.parse(responseBody);\r",
+									"tests[\"判断 errorno 是100\"] = resData.errno === 100;\r",
+									"tests[\"判断 errmsg 是“参数错误”\"] = resData.errmsg === \"参数错误\";\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Host",
+								"value": "glazero.snser.wang",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "region",
+									"value": "cn",
+									"type": "text"
+								},
+								{
+									"key": "type",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "{{username}}",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "{{pwd}}",
+									"type": "text"
+								},
+								{
+									"key": "osType",
+									"value": "android",
+									"type": "text"
+								},
+								{
+									"key": "osVer",
+									"value": "28",
+									"type": "text"
+								},
+								{
+									"key": "lang",
+									"value": "zh",
+									"type": "text"
+								},
+								{
+									"key": "brand",
+									"value": "Xiaomi",
+									"type": "text"
+								},
+								{
+									"key": "model",
+									"value": "MI 6",
+									"type": "text"
+								},
+								{
+									"key": "imei",
+									"value": "95402d8ddfa6765d",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://glazero.snser.wang/v1/user/login?uuid={{$guid}}&pid=glazero&t={{$timestamp}}",
+							"protocol": "https",
+							"host": [
+								"glazero",
+								"snser",
+								"wang"
+							],
+							"path": [
+								"v1",
+								"user",
+								"login"
+							],
+							"query": [
+								{
+									"key": "uuid",
+									"value": "{{$guid}}"
+								},
+								{
+									"key": "pid",
+									"value": "glazero"
+								},
+								{
+									"key": "t",
+									"value": "{{$timestamp}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "登录-带客户端信息-用户名字段为空&密码字段为空",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set('username', '');   //用户名为空\r",
+									"pm.environment.set('pwd', '');   //密码为空"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//reset\r",
+									"pm.environment.set(\"username\",\"glazeroinc@gmail.com\");\r",
+									"pm.environment.set(\"pwd\",\"qwe111111\")\r",
+									"\r",
+									"//断言\r",
+									"pm.test(\"判断 status code 是200\",function(){\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var resData = JSON.parse(responseBody);\r",
+									"tests[\"判断 errorno 是100\"] = resData.errno === 100;\r",
+									"tests[\"判断 errmsg 是“参数错误”\"] = resData.errmsg === \"参数错误\";\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Host",
+								"value": "glazero.snser.wang",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "region",
+									"value": "cn",
+									"type": "text"
+								},
+								{
+									"key": "type",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "{{username}}",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "{{pwd}}",
+									"type": "text"
+								},
+								{
+									"key": "osType",
+									"value": "android",
+									"type": "text"
+								},
+								{
+									"key": "osVer",
+									"value": "28",
+									"type": "text"
+								},
+								{
+									"key": "lang",
+									"value": "zh",
+									"type": "text"
+								},
+								{
+									"key": "brand",
+									"value": "Xiaomi",
+									"type": "text"
+								},
+								{
+									"key": "model",
+									"value": "MI 6",
+									"type": "text"
+								},
+								{
+									"key": "imei",
+									"value": "95402d8ddfa6765d",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://glazero.snser.wang/v1/user/login?uuid={{$guid}}&pid=glazero&t={{$timestamp}}",
+							"protocol": "https",
+							"host": [
+								"glazero",
+								"snser",
+								"wang"
+							],
+							"path": [
+								"v1",
+								"user",
+								"login"
+							],
+							"query": [
+								{
+									"key": "uuid",
+									"value": "{{$guid}}"
+								},
+								{
+									"key": "pid",
+									"value": "glazero"
+								},
+								{
+									"key": "t",
+									"value": "{{$timestamp}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "登录-带客户端信息-用户名错误&密码错误",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var usenameTemp = pm.environment.get(\"username\");\r",
+									"pm.environment.set('username',\"glazeroTest#\"+usenameTemp);   //不存在的用户名\r",
+									"\r",
+									"//md5加密\r",
+									"var pwdTemp = pm.environment.get(\"pwd\");\r",
+									"var md5Pwd = CryptoJS.MD5(pwdTemp+\"glazeroTest#\").toString();   \r",
+									"pm.environment.set('pwd', md5Pwd);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//reset\r",
+									"pm.environment.set(\"username\",\"glazeroinc@gmail.com\");\r",
+									"pm.environment.set(\"pwd\",\"qwe111111\")\r",
+									"\r",
+									"//断言\r",
+									"pm.test(\"判断 status code 是200\",function(){\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var resData = JSON.parse(responseBody);\r",
+									"tests[\"判断 errorno 是1\"] = resData.errno === 1;\r",
+									"tests[\"判断 errmsg 是“失败”\"] = resData.errmsg === \"失败\";\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Host",
+								"value": "glazero.snser.wang",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "region",
+									"value": "cn",
+									"type": "text"
+								},
+								{
+									"key": "type",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "{{username}}",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "{{pwd}}",
+									"type": "text"
+								},
+								{
+									"key": "osType",
+									"value": "android",
+									"type": "text"
+								},
+								{
+									"key": "osVer",
+									"value": "28",
+									"type": "text"
+								},
+								{
+									"key": "lang",
+									"value": "zh",
+									"type": "text"
+								},
+								{
+									"key": "brand",
+									"value": "Xiaomi",
+									"type": "text"
+								},
+								{
+									"key": "model",
+									"value": "MI 6",
+									"type": "text"
+								},
+								{
+									"key": "imei",
+									"value": "95402d8ddfa6765d",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://glazero.snser.wang/v1/user/login?uuid={{$guid}}&pid=glazero&t={{$timestamp}}",
+							"protocol": "https",
+							"host": [
+								"glazero",
+								"snser",
+								"wang"
+							],
+							"path": [
+								"v1",
+								"user",
+								"login"
+							],
+							"query": [
+								{
+									"key": "uuid",
+									"value": "{{$guid}}"
+								},
+								{
+									"key": "pid",
+									"value": "glazero"
+								},
+								{
+									"key": "t",
+									"value": "{{$timestamp}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "登录-带客户端信息-imei为空",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"//md5加密\r",
+									"var pwdTemp = pm.environment.get(\"pwd\");\r",
+									"var md5Pwd = CryptoJS.MD5(pwdTemp).toString();\r",
+									"pm.environment.set('pwd', md5Pwd);\r",
+									"\r",
+									"pm.environment.set(\"imei\", \"\");   //imei 为空"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//reset\r",
+									"pm.environment.set(\"pwd\",\"qwe111111\")\r",
+									"pm.environment.set(\"imei\", \"95402d8ddfa6765d\");\r",
+									"\r",
+									"//断言\r",
+									"pm.test(\"判断 status code 是200\",function(){\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var resData = JSON.parse(responseBody);\r",
+									"tests[\"判断 errorno 是100\"] = resData.errno === 100;\r",
+									"tests[\"判断 errmsg 是“参数错误”\"] = resData.errmsg === \"参数错误\";   //必传项\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Host",
+								"value": "glazero.snser.wang",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "region",
+									"value": "cn",
+									"type": "text"
+								},
+								{
+									"key": "type",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "{{username}}",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "{{pwd}}",
+									"type": "text"
+								},
+								{
+									"key": "osType",
+									"value": "android",
+									"type": "text"
+								},
+								{
+									"key": "osVer",
+									"value": "28",
+									"type": "text"
+								},
+								{
+									"key": "lang",
+									"value": "zh",
+									"type": "text"
+								},
+								{
+									"key": "brand",
+									"value": "Xiaomi",
+									"type": "text"
+								},
+								{
+									"key": "model",
+									"value": "MI 6",
+									"type": "text"
+								},
+								{
+									"key": "imei",
+									"value": "{{imei}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://glazero.snser.wang/v1/user/login?uuid={{$guid}}&pid=glazero&t={{$timestamp}}",
+							"protocol": "https",
+							"host": [
+								"glazero",
+								"snser",
+								"wang"
+							],
+							"path": [
+								"v1",
+								"user",
+								"login"
+							],
+							"query": [
+								{
+									"key": "uuid",
+									"value": "{{$guid}}"
+								},
+								{
+									"key": "pid",
+									"value": "glazero"
+								},
+								{
+									"key": "t",
+									"value": "{{$timestamp}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "登录-带客户端信息-imei格式不正确",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"//md5加密\r",
+									"var pwdTemp = pm.environment.get(\"pwd\");\r",
+									"var md5Pwd = CryptoJS.MD5(pwdTemp).toString();\r",
+									"pm.environment.set('pwd', md5Pwd);\r",
+									"\r",
+									"pm.environment.set(\"imei\", \"qwertyuioplkjhg\");   //imei 格式不正确"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//reset\r",
+									"pm.environment.set(\"pwd\",\"qwe111111\")\r",
+									"pm.environment.set(\"imei\", \"95402d8ddfa6765d\");\r",
+									"\r",
+									"//断言\r",
+									"pm.test(\"判断 status code 是200\",function(){\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var resData = JSON.parse(responseBody);\r",
+									"tests[\"判断 errorno 是0\"] = resData.errno === 0;\r",
+									"tests[\"判断 errmsg 是“成功”\"] = resData.errmsg === \"成功\";   //后端不做imei格式校验，字段为必填项，客户端如果取不到imei会生成一个传给后端。\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Host",
+								"value": "glazero.snser.wang",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "region",
+									"value": "cn",
+									"type": "text"
+								},
+								{
+									"key": "type",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "{{username}}",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "{{pwd}}",
+									"type": "text"
+								},
+								{
+									"key": "osType",
+									"value": "android",
+									"type": "text"
+								},
+								{
+									"key": "osVer",
+									"value": "28",
+									"type": "text"
+								},
+								{
+									"key": "lang",
+									"value": "zh",
+									"type": "text"
+								},
+								{
+									"key": "brand",
+									"value": "Xiaomi",
+									"type": "text"
+								},
+								{
+									"key": "model",
+									"value": "MI 6",
+									"type": "text"
+								},
+								{
+									"key": "imei",
+									"value": "{{imei}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://glazero.snser.wang/v1/user/login?uuid={{$guid}}&pid=glazero&t={{$timestamp}}",
+							"protocol": "https",
+							"host": [
+								"glazero",
+								"snser",
+								"wang"
+							],
+							"path": [
+								"v1",
+								"user",
+								"login"
+							],
+							"query": [
+								{
+									"key": "uuid",
+									"value": "{{$guid}}"
+								},
+								{
+									"key": "pid",
+									"value": "glazero"
+								},
+								{
+									"key": "t",
+									"value": "{{$timestamp}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "登录-不带客户端信息-用户名&密码正确",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"//md5加密\r",
+									"var pwdTemp = pm.environment.get(\"pwd\");\r",
+									"var md5Pwd = CryptoJS.MD5(pwdTemp).toString();\r",
+									"pm.environment.set('pwd', md5Pwd);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//reset\r",
+									"pm.environment.set(\"pwd\",\"qwe111111\")\r",
+									"\r",
+									"//断言\r",
+									"pm.test(\"判断 status code 是200\",function(){\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var resData = JSON.parse(responseBody);\r",
+									"tests[\"判断 errmsg 是“成功”\"] = resData.errmsg === \"成功\";\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Host",
+								"value": "glazero.snser.wang",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "type",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "{{username}}",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "{{pwd}}",
+									"type": "text"
+								},
+								{
+									"key": "imei",
+									"value": "95402d8ddfa6765d",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://glazero.snser.wang/v1/user/login?uuid={{$guid}}&pid=glazero",
+							"protocol": "https",
+							"host": [
+								"glazero",
+								"snser",
+								"wang"
+							],
+							"path": [
+								"v1",
+								"user",
+								"login"
+							],
+							"query": [
+								{
+									"key": "uuid",
+									"value": "{{$guid}}"
+								},
+								{
+									"key": "pid",
+									"value": "glazero"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "登录-type字段非1",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var pwdTemp = pm.environment.get(\"pwd\");\r",
+									"var md5Pwd = CryptoJS.MD5(pwdTemp).toString();\r",
+									"pm.environment.set('pwd', md5Pwd);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"pwd\",\"qwe111111\")"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Host",
+								"value": "glazero.snser.wang",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "region",
+									"value": "cn",
+									"type": "text"
+								},
+								{
+									"key": "type",
+									"value": "2",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "{{username}}",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "{{pwd}}",
+									"type": "text"
+								},
+								{
+									"key": "osType",
+									"value": "android",
+									"type": "text"
+								},
+								{
+									"key": "osVer",
+									"value": "28",
+									"type": "text"
+								},
+								{
+									"key": "lang",
+									"value": "zh",
+									"type": "text"
+								},
+								{
+									"key": "brand",
+									"value": "Xiaomi",
+									"type": "text"
+								},
+								{
+									"key": "model",
+									"value": "MI 6",
+									"type": "text"
+								},
+								{
+									"key": "imei",
+									"value": "95402d8ddfa6765d",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://glazero.snser.wang/v1/user/login?uuid={{$guid}}&pid=glazero&t={{$timestamp}}",
+							"protocol": "https",
+							"host": [
+								"glazero",
+								"snser",
+								"wang"
+							],
+							"path": [
+								"v1",
+								"user",
+								"login"
+							],
+							"query": [
+								{
+									"key": "uuid",
+									"value": "{{$guid}}"
+								},
+								{
+									"key": "pid",
+									"value": "glazero"
+								},
+								{
+									"key": "t",
+									"value": "{{$timestamp}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "登录-type字段为空",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var pwdTemp = pm.environment.get(\"pwd\");\r",
+									"var md5Pwd = CryptoJS.MD5(pwdTemp).toString();\r",
+									"pm.environment.set('pwd', md5Pwd);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"pwd\",\"qwe111111\")"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Host",
+								"value": "glazero.snser.wang",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "region",
+									"value": "cn",
+									"type": "text"
+								},
+								{
+									"key": "type",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "{{username}}",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "{{pwd}}",
+									"type": "text"
+								},
+								{
+									"key": "osType",
+									"value": "android",
+									"type": "text"
+								},
+								{
+									"key": "osVer",
+									"value": "28",
+									"type": "text"
+								},
+								{
+									"key": "lang",
+									"value": "zh",
+									"type": "text"
+								},
+								{
+									"key": "brand",
+									"value": "Xiaomi",
+									"type": "text"
+								},
+								{
+									"key": "model",
+									"value": "MI 6",
+									"type": "text"
+								},
+								{
+									"key": "imei",
+									"value": "95402d8ddfa6765d",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://glazero.snser.wang/v1/user/login?uuid={{$guid}}&pid=glazero&t={{$timestamp}}",
+							"protocol": "https",
+							"host": [
+								"glazero",
+								"snser",
+								"wang"
+							],
+							"path": [
+								"v1",
+								"user",
+								"login"
+							],
+							"query": [
+								{
+									"key": "uuid",
+									"value": "{{$guid}}"
+								},
+								{
+									"key": "pid",
+									"value": "glazero"
+								},
+								{
+									"key": "t",
+									"value": "{{$timestamp}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "设备列表",
+			"item": [
+				{
+					"name": "获取设备列表",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var resData = JSON.parse(responseBody);\r",
+									"tests[\"判断 errorno 是0\"] = resData.errno === 0\r",
+									"\r",
+									"tests[\"判断设备列表中的数据：业务id\"] = resData.data.list[0].pid === \"glazero\"\r",
+									"tests[\"判断设备列表中的数据：设备类型\"] = 1\r",
+									"\r",
+									"//pm.test(\"判断设备列表中的数据：业务id、设备类型\", function(){\r",
+									"    var jsonData = pm.response.json()\r",
+									"    pm.expect(jsonData.data.list[0].pid).to.eql(\"glazero\");\r",
+									"    pm.expect(jsonData.data.list[0].devType).to.eql(1);\r",
+									"//})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Gz-Uid",
+								"value": "{{uid}}",
+								"type": "text"
+							},
+							{
+								"key": "Gz-Sid",
+								"value": "{{sid}}",
+								"type": "text"
+							},
+							{
+								"key": "Gz-Pid",
+								"value": "glazero",
+								"type": "text"
+							},
+							{
+								"key": "Host",
+								"value": "glazero.snser.wang",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://vpc-test-164097185.cn-northwest-1.elb.amazonaws.com.cn/v1/dev/getList?uuid={{$guid}}&pid=glazero&t={{$timestamp}}",
+							"protocol": "https",
+							"host": [
+								"vpc-test-164097185",
+								"cn-northwest-1",
+								"elb",
+								"amazonaws",
+								"com",
+								"cn"
+							],
+							"path": [
+								"v1",
+								"dev",
+								"getList"
+							],
+							"query": [
+								{
+									"key": "uuid",
+									"value": "{{$guid}}"
+								},
+								{
+									"key": "pid",
+									"value": "glazero"
+								},
+								{
+									"key": "t",
+									"value": "{{$timestamp}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "获取设备列表-sessionId过期",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var a = pm.globals.get(\"G_Temp\");   //获取运行脚本前保存下来的原始sid\r",
+									"pm.environment.set(\"sid\", a);   //恢复原始sid\r",
+									"\r",
+									"//断言\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"errno返回是：202\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.errno).to.eql(202);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"errmsg返回是：sid过期\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.errmsg).to.eql(\"sid过期\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var sidTemp1 = pm.environment.get(\"sid\");\r",
+									"pm.globals.set(\"G_Temp\", sidTemp1);   //保存原始sid，用于执行脚本后恢复sid值\r",
+									"sidTemp2 = sidTemp1.reverse();   //反转原始sid，制造格式相同的非法sid\r",
+									"pm.environment.set(\"sid\", sidTemp2);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Gz-Uid",
+								"value": "{{uid}}",
+								"type": "text"
+							},
+							{
+								"key": "Gz-Sid",
+								"value": "{{sid}}",
+								"type": "text"
+							},
+							{
+								"key": "Gz-Pid",
+								"value": "glazero",
+								"type": "text"
+							},
+							{
+								"key": "Host",
+								"value": "glazero.snser.wang",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://vpc-test-164097185.cn-northwest-1.elb.amazonaws.com.cn/v1/dev/getList?uuid={{$guid}}&pid=glazero&t={{$timestamp}}",
+							"protocol": "https",
+							"host": [
+								"vpc-test-164097185",
+								"cn-northwest-1",
+								"elb",
+								"amazonaws",
+								"com",
+								"cn"
+							],
+							"path": [
+								"v1",
+								"dev",
+								"getList"
+							],
+							"query": [
+								{
+									"key": "uuid",
+									"value": "{{$guid}}"
+								},
+								{
+									"key": "pid",
+									"value": "glazero"
+								},
+								{
+									"key": "t",
+									"value": "{{$timestamp}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
